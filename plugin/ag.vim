@@ -38,20 +38,34 @@ command! -count -nargs=* -complete=customlist,s:fc AgGroupFile call ag#bind#f('g
 
 
 if !g:ag.no_abbreviations
-  cnoreabbrev ag   Ag
-  cnoreabbrev aga  AgAdd
-  cnoreabbrev agb  AgBuffer
-  cnoreabbrev ags  AgFromSearch
-  cnoreabbrev agf  AgFile
-  cnoreabbrev agh  AgHelp
+  let s:ag_cabbrev =[
+    \ ['ag',  'Ag'],
+    \ ['aga', 'AgAdd'],
+    \ ['agb', 'AgBuffer'],
+    \ ['ags', 'AgFromSearch'],
+    \ ['agf', 'AgFile'],
+    \ ['agh', 'AgHelp'],
+    \
+    \ ['agl',  'LAg'],
+    \ ['agbl', 'LAgBuffer'],
+    \ ['agfl', 'AgFile'],
+    \
+    \ ['agr',  'AgRepeat'],
+    \ ['agg',  'AgGroup'],
+    \ ['aggf', 'AgGroupFile'],
+  \]
 
-  cnoreabbrev agl  LAg
-  cnoreabbrev agbl LAgBuffer
-  cnoreabbrev agfl AgFile
+  function! s:expabbr(lhs, rhs)
+    if getcmdtype() !=# ":" | return a:lhs | endif
+    let l:lhcmd = strpart(getcmdline(), 0, getcmdpos())
+    return (l:lhcmd =~ '^'.a:lhs.'$' ? a:rhs : a:lhs)
+  endfunction
 
-  cnoreabbrev agr  AgRepeat
-  cnoreabbrev agg  AgGroup
-  cnoreabbrev aggf AgGroupFile
+  for [lhs, rhs] in s:ag_cabbrev
+    if maparg(lhs, 'c', 1) ==# ''  " User can selectively redefine abbrev
+      exe printf('cnorea <expr> %s <SID>expabbr("%s","%s")', lhs, lhs, rhs)
+    endif
+  endfor
 endif
 
 
