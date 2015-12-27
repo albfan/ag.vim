@@ -3,12 +3,12 @@ language: generic
 matrix:
   include:
 
-   - &vim74 
+   - &vim74
      env: AG_VER=master
-   
+
      sudo: false
-   
-     addons: 
+
+     addons:
        apt:
          packages:
          - vim
@@ -17,7 +17,7 @@ matrix:
          - libpcre3-dev
          - zlib1g-dev
          - liblzma-dev
-     
+
      before_install:
        - URL=https://github.com/ggreer/the_silver_searcher/archive
        - DIR=$HOME/ag/the_silver_searcher-$AG_VER
@@ -31,16 +31,16 @@ matrix:
          mv -v $DIR/ag{,-};
          printf '#!/bin/sh\nag- --noaffinity "$@"' > $DIR/ag;
          chmod +x $DIR/ag; fi
-     
+
      cache:
        directories:
        - $HOME/ag
-     
+
      script:
        - ag --version
        - vim --version
        - (cd scripts && ./suite.sh --verbose --clean)
-   
+
    - << : *vim74
      env: AG_VER=0.31.0
 
@@ -51,32 +51,32 @@ matrix:
      env: AG_VER=0.23.0
 
    - &nvim env: EDITOR=nvim
-   
+
      sudo: required
 
      dist: trusty
-     
+
      before_script:
        - sudo apt-add-repository ppa:neovim-ppa/unstable -y
        - sudo apt-get update -qq
        - sudo apt-get install neovim
        - sudo apt-get install silversearcher-ag
-     
+
      script:
        - vim --version
        - cd scripts
        - ./suite.sh --verbose --clean
-   
+
    - &vim73 env:
-       
+
      sudo: required
-     
+
      before_script:
        - sudo apt-get install vim
        - sudo apt-add-repository ppa:fcwu-tw/ppa -y
        - sudo apt-get update -qq
        - sudo apt-get install silversearcher-ag
-     
+
      script:
        - vim --version
        - ag --version
