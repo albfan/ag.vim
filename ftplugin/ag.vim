@@ -13,3 +13,5 @@ noremap <silent> <buffer> s       :call ag#ctrl#OpenFile(1)<CR>
 noremap <silent> <buffer> S       :call ag#ctrl#OpenFile(2)<CR>
 noremap <silent> <buffer> d       :call ag#ctrl#DeleteFold()<CR>
 noremap <silent> <buffer> gl      :call ag#ctrl#ToggleShowLine()<CR>
+noremap <expr> <silent> <buffer> l ag#ctrl#ForwardSkipConceal(v:count1)
+noremap <expr> <silent> <buffer> h ag#ctrl#BackwardSkipConceal(v:count1)

@@ -17,8 +17,16 @@ function! ag#ctrl#DeleteFold()
   endif
   "normal stops if command fails. On  cursor at beginning of fold motion fails
   normal! [z
-  normal! kVj]zD
+  let first = line('.') == 1
+  if !first
+    normal! k
+  endif
+  normal! V]zD
+  if first
+     normal! dd
+  endif
   setlocal nomodifiable
+  call ag#group#highlight_filenames()
 endfunction
 
 " Find next fold or go back to first one
@@ -127,4 +135,86 @@ function! ag#ctrl#ToggleEntireFold()
   else
     normal zR
   endif
+endfunction
+
+
+function! ag#ctrl#FoldAg()
+  let line = getline(v:lnum)
+  if empty(line)
+    return '0'
+  else
+    return '1'
+  endif
+  return '0'
+endfunction
+
+function! ag#ctrl#ForwardSkipConceal(count)
+  echom "forward"
+  let cnt=a:count
+  let mvcnt=0
+  let c=col('.')
+  let l=line('.')
+  let lc=col('$')
+  let line=getline('.')
+  while cnt
+    if c>=lc
+      let mvcnt+=cnt
+      break
+    endif
+    if stridx(&concealcursor, 'n')==-1
+      let isconcealed=0
+    else
+      let [isconcealed, cchar, group]=synconcealed(l, c)
+    endif
+    if isconcealed
+      let cnt-=strchars(cchar)
+      let oldc=c
+      let c+=1
+      while c<lc && synconcealed(l, c)[0]
+        let c+=1
+      endwhile
+      let mvcnt+=strchars(line[oldc-1:c-2])
+    else
+      let cnt-=1
+      let mvcnt+=1
+      let c+=len(matchstr(line[c-1:], '.'))
+    endif
+  endwhile
+  "exec "normal ".mvcnt."l"
+  return ":\<C-u>\e".mvcnt."l"
+endfunction
+
+function! ag#ctrl#BackwardSkipConceal(count)
+  let cnt=a:count
+  let mvcnt=0
+  let c=col('.')
+  let l=line('.')
+  let lc=1
+  let line=getline('.')
+  while cnt
+    if c<=lc
+      let mvcnt+=cnt
+      break
+    endif
+    if stridx(&concealcursor, 'n')==-1
+      let isconcealed=0
+    else
+      let [isconcealed, cchar, group]=synconcealed(l, c)
+    endif
+    if isconcealed
+      let cnt-=strchars(cchar)
+      let oldc=c
+      let c+=1
+      while c<lc && synconcealed(l, c)[0]
+        let c-=1
+      endwhile
+      let mvcnt+=strchars(line[oldc-1:c-2])
+    else
+      let cnt-=1
+      let mvcnt+=1
+      let c+=len(matchstr(line[c-1:], '.'))
+    endif
+  endwhile
+  "exec "normal ".mvcnt."h"
+  return ":\<C-u>\e".mvcnt."h"
 endfunction
