@@ -14,6 +14,7 @@ let s:ag.last = {}
 let s:ag.qhandler = "botright copen"
 let s:ag.lhandler = "botright lopen"
 let s:ag.nhandler = "botright new"
+let s:ag.highlight = 0
 let s:ag.goto_exact_line = 0
 let s:ag.working_path_mode = 'c'
 let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 'build.xml']
