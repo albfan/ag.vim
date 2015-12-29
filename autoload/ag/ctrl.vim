@@ -128,14 +128,3 @@ function! ag#ctrl#ToggleEntireFold()
     normal zR
   endif
 endfunction
-
-
-function! ag#ctrl#FoldAg()
-  let line = getline(v:lnum)
-  if empty(line)
-    return '0'
-  else
-    return '1'
-  endif
-  return '0'
-endfunction

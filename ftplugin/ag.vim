@@ -1,5 +1,4 @@
-setlocal foldmethod=expr
-setlocal foldexpr=ag#ctrl#FoldAg()
+setlocal foldmethod=syntax
 setlocal foldcolumn=2
 
 " ALT:TRY: change ft in default way by hooking autocmd of 'setf <ft>'
