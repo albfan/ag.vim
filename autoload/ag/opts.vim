@@ -27,6 +27,11 @@ let s:ag.mappings_to_cmd_history = 0
 let s:ag.no_default_mappings = 0
 let s:ag.no_abbreviations = 0
 
+" Folding configuration to obtain more tight compressing
+let s:ag.foldpath  = 1          " Include group path
+let s:ag.foldempty = 1          " Include trailing empty line
+let s:ag.folddelim = 0          " Include context delimiter '--'
+let s:ag.syntax_in_context = 1  " Embeds syntax in context area (also)
 
 
 function! ag#opts#init()

@@ -30,6 +30,9 @@ function! ag#group#search(args, frgx)
   let b:pattern = escape(ag#group#get_patt(a:args), '/')
   "explicit file-filter and search in lower case
   let b:ignore_case = !empty(fileregexp) && (b:pattern !~# '[A-Z]')
+  " REM:FIXME: -- after disallowing raw options in #55 and setting it directly
+  let g:ag.last.context = matchstr(l:cmdline,
+        \ '\v\s+%(-C|''-C'')\s*%(\zs\d+\ze|''\zs\d+\ze'')%(\s+|$)')
 
   setfiletype ag
 endfunction
