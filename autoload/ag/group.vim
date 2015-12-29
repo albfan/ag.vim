@@ -25,14 +25,16 @@ function! ag#group#search(args, frgx)
   1delete _
   setlocal nomodifiable
 
-  " NOTE: no need to escape, as after shellescape() it has embedded single
-  " quotes. Simply use "exe 'syn match agSearch'.b:patt"?
-  let b:pattern = escape(ag#group#get_patt(a:args), '/')
-  "explicit file-filter and search in lower case
-  let b:ignore_case = !empty(fileregexp) && (b:pattern !~# '[A-Z]')
   " REM:FIXME: -- after disallowing raw options in #55 and setting it directly
   let g:ag.last.context = matchstr(l:cmdline,
         \ '\v\s+%(-C|''-C'')\s*%(\zs\d+\ze|''\zs\d+\ze'')%(\s+|$)')
 
   setfiletype ag
+  " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance
+  " call ag#syntax#set(g:ag.ft)
+
+  let l:pattern = ag#group#get_patt(a:args)
+  " THINK?(usecase) Explicit file-filter and search in lower case
+  let l:ignore_case = !empty(fileregexp) && (l:pattern !~# '[A-Z]')
+  call ag#syntax#himatch_pcre(l:pattern, l:ignore_case)
 endfunction
