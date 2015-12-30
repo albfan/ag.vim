@@ -65,13 +65,13 @@ function! ag#bind#f(view, args, paths, cmd)
   if empty(l:args) | echom "empty search" | return | endif
 
   let g:ag.last = {'view': ag#view#auto(a:view), 'args': l:args,
-        \ 'paths': ag#paths#auto(a:paths), 'cmd': l:cmd}
+        \ 'paths': ag#paths#auto(a:paths), 'cmd': l:cmd, 'orig_args': a:args}
 
   call ag#bind#call(g:ag.last)
 endfunction
 
-
-function! ag#bind#f_tracked(cmd, ...)
+function! ag#bind#f_tracked(cmd, visual, ...)
+  let g:ag.visual = a:visual
   call call('ag#bind#f', a:000)
   if g:ag.toggle.mappings_to_cmd_history
      call histadd(":", a:cmd.' '.ag#bind#join(g:ag.last.args + g:ag.last.paths))

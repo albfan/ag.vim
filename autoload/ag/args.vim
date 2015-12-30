@@ -9,9 +9,11 @@ function! ag#args#auto(args)
     endif
   endif
   " THINK:FIX: this vsel disables using ranges?
-  return (
-    \ (mode() =~# '\v(v|V|\<C-v>)') ?  ag#args#vsel('\n') :
-    \ !empty(expand("<cword>"))     ?  ag#args#cword()    :  g:ag.last.args)
+  return ( g:ag.visual 
+    \ ? ag#args#vsel('\n') 
+    \ : !empty(expand("<cword>"))
+       \ ? ag#args#cword()
+       \ : g:ag.last.args)
 endfunction
 
 
