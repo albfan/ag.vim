@@ -58,6 +58,7 @@ if g:ag.use_default.abbreviations
     \
     \ ['agr',  'AgRepeat'],
     \ ['agg',  'AgGroup'],
+    \ ['aggroup',  'AgGroup'],
     \ ['aggf', 'AgGroupFile'],
   \]
 
