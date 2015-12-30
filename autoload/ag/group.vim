@@ -1,11 +1,17 @@
 " TODO: replace by direct patt supplying from bind args list
 function! ag#group#get_patt(p)
-  return
-    \ a:p =~# '^"' ? split(a:p, '"')[0] :
-    \ a:p =~# "^'" ? split(a:p, "'")[0] :
-    \ split(a:p, '\s\+')[0]
+  if g:ag.last.auto
+    let args = join(g:ag.last.args[1:], " ")
+  else
+    let args = join(g:ag.last.orig_args, " ")
+    let args = args =~# '^"' 
+          \ ? split(args, '"')[0] 
+          \ : args =~# "^'" 
+              \ ? split(args, "'")[0] 
+              \ : split(args, '\s\+')[0]
+  endif
+  return args
 endfunction
-
 
 function! ag#group#search(args, frgx)
   silent! wincmd P
