@@ -149,7 +149,6 @@ function! ag#ctrl#FoldAg()
 endfunction
 
 function! ag#ctrl#ForwardSkipConceal(count)
-  echom "forward"
   let cnt=a:count
   let mvcnt=0
   let c=col('.')
