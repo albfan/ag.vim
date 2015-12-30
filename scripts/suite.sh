@@ -4,8 +4,8 @@ cd $(dirname $(readlink -m ${0}))
 
 [[ -n "$TMPDIR" ]] || TMPDIR="$(dirname $(mktemp --dry-run --tmpdir))"
 PJROOT="${PWD%/*}"
-# [[ "$EDITOR" =~ vim ]] || EDITOR=vim
-echo using EDITOR: ${EDITOR:=vim}
+[[ "$EDITOR" =~ vim ]] || EDITOR=vim
+echo using EDITOR: ${EDITOR}
 
 die() { printf "Err: '"${0##*/}"' %s${1+\n}" "$1"; exit 1; }
 while getopts 'vc-' opt; do case "$opt"
