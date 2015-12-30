@@ -34,7 +34,6 @@ function! ag#group#search(args, frgx)
   " call ag#syntax#set(g:ag.ft)
 
   let l:pattern = ag#group#get_patt(a:args)
-  " THINK?(usecase) Explicit file-filter and search in lower case
-  let l:ignore_case = !empty(fileregexp) && (l:pattern !~# '[A-Z]')
+  let l:ignore_case = (l:pattern !~# '[A-Z]')
   call ag#syntax#himatch_pcre(l:pattern, l:ignore_case)
 endfunction
