@@ -2,7 +2,7 @@ let s:ag = {}
 
 " Inner fields
 let s:ag.bin = 'ag'
-let s:ag.ver = get(split(system(s:ag.bin.' --version'), "\_s"), 2, '')
+let s:ag.ver = get(split(system(s:ag.bin.' --version'), '\_s'), 2, '')
 
 " --vimgrep (consistent output we can parse) is available from ag v0.25.0+
 let s:ag.prg = s:ag.bin . (s:ag.ver =~ '\v0\.%(\d|1\d|2[0-4])%(.\d+)?' ?
