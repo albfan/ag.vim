@@ -6,8 +6,10 @@ let s:ag.ver = get(split(system(s:ag.bin.' --version'), '\_s'), 2, '')
 
 " --vimgrep (consistent output we can parse) is available from ag v0.25.0+
 let s:ag.prg = s:ag.bin . (s:ag.ver =~ '\v0\.%(\d|1\d|2[0-4])%(.\d+)?' ?
-      \ ' --vimgrep' : ' --column --nogroup ')  " --noheading
+      \ ' --vimgrep' : ' --column --nogroup --noheading')
 let s:ag.prg .=' --smart-case --ignore tags'  " TEMP:REMOVE?
+let s:ag.prg_grp = s:ag.bin . ' --column --group --heading'
+let s:ag.prg_grp .=' --smart-case --ignore tags'  " TEMP:REMOVE?
 let s:ag.last = {}
 
 " Settings
