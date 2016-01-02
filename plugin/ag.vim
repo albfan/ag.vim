@@ -47,8 +47,10 @@ if !g:ag.no_abbreviations
     \ ['agh', 'AgHelp'],
     \
     \ ['agl',  'LAg'],
-    \ ['agbl', 'LAgBuffer'],
-    \ ['agfl', 'AgFile'],
+    \ ['agla', 'LAgAdd'],
+    \ ['aglb', 'LAgBuffer'],
+    \ ['aglf', 'LAgFile'],
+    \ ['aglh', 'LAgHelp'],
     \
     \ ['agr',  'AgRepeat'],
     \ ['agg',  'AgGroup'],
