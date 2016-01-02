@@ -19,22 +19,22 @@ fun! s:fc(...)
 endfun
 
 " NOTE: You must, of course, install ag / the_silver_searcher
-command! -bang -nargs=* -complete=customlist,s:fc Ag           call ag#bind#f('qf', [<f-args>], [], '<bang>')
-command! -bang -nargs=* -complete=customlist,s:fc AgAdd        call ag#bind#f('qf', [<f-args>], [], '<bang>+')
-command! -bang -nargs=* -complete=customlist,s:fc AgBuffer     call ag#bind#f('qf', [<f-args>], 'buffers', '<bang>')
-command! -bang -nargs=* -complete=customlist,s:fc AgFromSearch call ag#bind#f('qf', 'slash', [<f-args>], '<bang>')
-command! -bang -nargs=* -complete=customlist,s:fc AgFile       call ag#bind#f('qf', ['-g', <f-args>], [], '<bang>')
-command! -bang -nargs=* -complete=help            AgHelp       call ag#bind#f('qf', [<f-args>], 'help', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc Ag           call ag#bind#f('qf', [<f-args>], [], '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgAdd        call ag#bind#f('qf', [<f-args>], [], '<bang>+')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgBuffer     call ag#bind#f('qf', [<f-args>], 'buffers', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgFromSearch call ag#bind#f('qf', 'slash', [<f-args>], '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgFile       call ag#bind#f('qf', ['-g', <f-args>], [], '<bang>')
+command! -bang -range -nargs=* -complete=help            AgHelp       call ag#bind#f('qf', [<f-args>], 'help', '<bang>')
 
-command! -bang -nargs=* -complete=customlist,s:fc LAg          call ag#bind#f('loc', [<f-args>], [], '<bang>')
-command! -bang -nargs=* -complete=customlist,s:fc LAgAdd       call ag#bind#f('loc', [<f-args>], [], '<bang>+')
-command! -bang -nargs=* -complete=customlist,s:fc LAgBuffer    call ag#bind#f('loc', [<f-args>], 'buffers', '<bang>')
-command! -bang -nargs=* -complete=customlist,s:fc LAgFile      call ag#bind#f('loc', ['-g', <f-args>], [], '<bang>')
-command! -bang -nargs=* -complete=help            LAgHelp      call ag#bind#f('loc', [<f-args>], 'help', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAg          call ag#bind#f('loc', [<f-args>], [], '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAgAdd       call ag#bind#f('loc', [<f-args>], [], '<bang>+')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAgBuffer    call ag#bind#f('loc', [<f-args>], 'buffers', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAgFile      call ag#bind#f('loc', ['-g', <f-args>], [], '<bang>')
+command! -bang -range -nargs=* -complete=help            LAgHelp      call ag#bind#f('loc', [<f-args>], 'help', '<bang>')
 
-command! -count                                    AgRepeat    call ag#bind#repeat()
-command! -count -nargs=* -complete=customlist,s:fc AgGroup     call ag#bind#f('grp', [<f-args>], [], '')
-command! -count -nargs=* -complete=customlist,s:fc AgGroupFile call ag#bind#f('grp', [<f-args>], [], -1)
+command! -bang -count                                    AgRepeat     call ag#bind#repeat()
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      call ag#bind#f('grp', [<f-args>], [], '')
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f('grp', [<f-args>], [], -1)
 
 
 if g:ag.use_default.abbreviations
