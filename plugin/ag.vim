@@ -71,10 +71,22 @@ if g:ag.use_default.abbreviations
 endif
 
 
+noremap <silent> <Plug>(ag-qf)           :<C-u>call ag#bind#f('qf', [], [], '')<CR>
+noremap <silent> <Plug>(ag-qf-add)       :<C-u>call ag#bind#f('qf', [], [], '+')<CR>
+noremap <silent> <Plug>(ag-qf-buffer)    :<C-u>call ag#bind#f('qf', [], 'buffers', '')<CR>
+noremap <silent> <Plug>(ag-qf-searched)  :<C-u>call ag#bind#f('qf', 'slash', [], '')<CR>
+noremap <silent> <Plug>(ag-qf-file)      :<C-u>call ag#bind#f('qf', ['-g'], [], '')<CR>
+noremap <silent> <Plug>(ag-qf-help)      :<C-u>call ag#bind#f('qf', [], 'help', '')<CR>
+
+noremap <silent> <Plug>(ag-loc)          :<C-u>call ag#bind#f('loc', [], [], '')<CR>
+noremap <silent> <Plug>(ag-loc-add)      :<C-u>call ag#bind#f('loc', [], [], '+')<CR>
+noremap <silent> <Plug>(ag-loc-buffer)   :<C-u>call ag#bind#f('loc', [], 'buffers', '')<CR>
+noremap <silent> <Plug>(ag-loc-file)     :<C-u>call ag#bind#f('loc', ['-g'], [], '')<CR>
+noremap <silent> <Plug>(ag-loc-help)     :<C-u>call ag#bind#f('loc', [], 'help', '')<CR>
+
 nnoremap <silent> <Plug>(ag-repeat) :<C-u>call ag#bind#repeat()<CR>
 nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 'grp', [], [], '')<CR>
 xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 'grp', [], [], '')<CR>
-" TODO: add <Plug> mappings for Ag* and LAg*
 
 
 if g:ag.use_default.mappings
