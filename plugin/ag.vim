@@ -37,7 +37,7 @@ command! -count -nargs=* -complete=customlist,s:fc AgGroup     call ag#bind#f('g
 command! -count -nargs=* -complete=customlist,s:fc AgGroupFile call ag#bind#f('grp', [<f-args>], [], -1)
 
 
-if !g:ag.no_abbreviations
+if g:ag.use_default.abbreviations
   let s:ag_cabbrev =[
     \ ['ag',  'Ag'],
     \ ['aga', 'AgAdd'],
@@ -77,7 +77,7 @@ xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 'grp
 " TODO: add <Plug> mappings for Ag* and LAg*
 
 
-if !g:ag.no_default_mappings
+if g:ag.use_default.mappings
   let s:ag_mappings = [
     \ ['nx', '<Leader>af', '<Plug>(ag-qf)'],
     \ ['nx', '<Leader>aa', '<Plug>(ag-qf-add)'],

@@ -26,8 +26,7 @@ let s:ag.apply_qmappings = 1
 let s:ag.apply_lmappings = 1
 let s:ag.mapping_message = 1
 let s:ag.mappings_to_cmd_history = 0
-let s:ag.no_default_mappings = 0
-let s:ag.no_abbreviations = 0
+let s:ag.use_default = {'mappings': 1, 'abbreviations': 1}
 
 " Folding configuration to obtain more tight compressing
 let s:ag.foldpath  = 1          " Include group path
