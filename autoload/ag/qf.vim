@@ -11,25 +11,25 @@ function! ag#qf#search(args, cmd)
   if l:match_count
     if a:cmd =~# '^l'
       exe g:ag.lhandler
-      let b:ag_apply_mappings = g:ag.apply_lmappings
+      let b:ag_apply_mappings = g:ag.use_default.lmappings
       let b:ag_win_prefix = 'l' " we're using the location list
     else
       exe g:ag.qhandler
-      let b:ag_apply_mappings = g:ag.apply_qmappings
+      let b:ag_apply_mappings = g:ag.use_default.qmappings
       let b:ag_win_prefix = 'c' " we're using the quickfix window
     endif
     setfiletype qf
   endif
 
   " If highlighting is on, highlight the search keyword.
-  if exists('g:ag.highlight')
+  if g:ag.toggle.highlight
     let @/ = matchstr(a:args, "\\v(-)\@<!(\<)\@<=\\w+|['\"]\\zs.{-}\\ze['\"]")
     call feedkeys(":let &hlsearch=1 \| echo \<CR>", 'n')
   end
 
   redraw!
 
-  if l:match_count && b:ag_apply_mappings && g:ag.mapping_message
+  if l:match_count && b:ag_apply_mappings && g:ag.toggle.mapping_message
     echom "ag.vim keys: q=quit <cr>/e/t/h/v=enter/edit/tab/split/vsplit go/T/H/gv=preview versions of same"
   endif
 

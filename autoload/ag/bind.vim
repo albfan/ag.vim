@@ -73,7 +73,7 @@ endfunction
 
 function! ag#bind#f_tracked(cmd, ...)
   call call('ag#bind#f', a:000)
-  if g:ag.mappings_to_cmd_history
+  if g:ag.toggle.mappings_to_cmd_history
      call histadd(":", a:cmd.' '.ag#bind#join(g:ag.last.args + g:ag.last.paths))
   endif
 endfunction

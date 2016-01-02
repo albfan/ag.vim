@@ -26,7 +26,7 @@ if g:ag.last.context !=# ''
   syn cluster agContextG  contains=agContextLine,agMatchLine
 
   syn match agDelimiter  display contained contains=NONE excludenl '^--$'
-  if g:ag.folddelim
+  if g:ag.toggle.folddelim
     syn cluster agContextG  add=agDelimiter
   else
     syn cluster agGroupG  add=agDelimiter
@@ -35,12 +35,12 @@ if g:ag.last.context !=# ''
   execute "
     \ syn region agContextLine  concealends display keepend oneline contained
     \ matchgroup=agContextNum start='^\\d\\+-' matchgroup=NONE end='$'
-    \ contains=".(g:ag.syntax_in_context ? '@agMatchG' : 'NONE')
+    \ contains=".(g:ag.toggle.syntax_in_context ? '@agMatchG' : 'NONE')
   execute "
     \ syn region agContextBlock  fold keepend contained contains=@agContextG
     \ start='\\v^%(\\d+:){1,2}' start='^\\d\\+-'
     \ end='^\\n'me=s-1 excludenl end='\\n--$'"
-    \ .(g:ag.folddelim ?'': 'me=s-1')
+    \ .(g:ag.toggle.folddelim ?'': 'me=s-1')
 else
   " EXPL:HACK: optimize performance impact by completely disabling agContextBlock
   syn cluster agGroupG  contains=agMatchLine
@@ -48,17 +48,17 @@ endif
 
 
 " ATTENTION: Declared last to have highest priority in regions match order.
-if g:ag.foldpath
+if g:ag.toggle.foldpath
   execute "
     \ syn region agGroupBlock  fold keepend contains=@agGroupG
     \ matchgroup=agPath excludenl start='^.\\+$'
     \ matchgroup=NONE end='\\%$' end='^\\n'"
-    \.(g:ag.foldempty ?'': 'me=s-1')
+    \.(g:ag.toggle.foldempty ?'': 'me=s-1')
 else
   execute "
     \ syn region agGroupBlock  fold keepend contains=@agGroupG
     \ start='^.' end='\\%$' end='^\\n'"
-    \.(g:ag.foldempty ?'': 'me=s-1')
+    \.(g:ag.toggle.foldempty ?'': 'me=s-1')
   syn region agPath  oneline keepend contains=NONE
     \ start='^.' excludenl end='$' skipnl nextgroup=agGroupBlock
 endif

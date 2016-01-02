@@ -37,6 +37,10 @@ command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      call ag#bi
 command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f('grp', [<f-args>], [], -1)
 
 
+command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<f-args>)
+command! -bang -nargs=+ -complete=customlist,ag#complete#opts_toggle AgToggle  call ag#opts#toggle(<f-args>)
+
+
 if g:ag.use_default.abbreviations
   let s:ag_cabbrev =[
     \ ['ag',  'Ag'],

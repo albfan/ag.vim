@@ -84,7 +84,7 @@ function! ag#ctrl#OpenFile(forceSplit)
   if line =~ '^\d\+:'
     let data = split(line,':')
     let pos = data[0]
-    if g:ag.goto_exact_line
+    if g:ag.toggle.goto_exact_line
       let pos += offset
     endif
     let col = data[1]
@@ -117,9 +117,9 @@ function! ag#ctrl#OpenFile(forceSplit)
     endif
 
 
-    
+
     if bufname('%') == filename
-      exe pos 
+      exe pos
     else
       exe open_command . ' +' . pos . ' ' . filename
     endif

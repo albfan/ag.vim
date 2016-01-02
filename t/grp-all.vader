@@ -45,7 +45,7 @@ Expect (match on line 22 and 41):
   22:33:   echo "a line with percentage %foge"
 
 Execute (history addition):
-  let g:ag.mappings_to_cmd_history = 1
+  let g:ag.toggle.mappings_to_cmd_history = 1
   "do a search
   :AgGroup "hoge" fixture
   "goto line

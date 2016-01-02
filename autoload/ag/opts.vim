@@ -16,23 +16,26 @@ let s:ag.last = {}
 let s:ag.qhandler = "botright copen"
 let s:ag.lhandler = "botright lopen"
 let s:ag.nhandler = "botright new"
-let s:ag.highlight = 0
-let s:ag.goto_exact_line = 0
 let s:ag.working_path_mode = 'c'
 let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 'build.xml']
+let s:ag.toggle = {}
+let s:ag.toggle.highlight = 0
+let s:ag.toggle.goto_exact_line = 0
 
 " Mappings
-let s:ag.apply_qmappings = 1
-let s:ag.apply_lmappings = 1
-let s:ag.mapping_message = 1
-let s:ag.mappings_to_cmd_history = 0
-let s:ag.use_default = {'mappings': 1, 'abbreviations': 1}
+let s:ag.use_default = {}
+let s:ag.use_default.mappings = 1
+let s:ag.use_default.qmappings = 1
+let s:ag.use_default.lmappings = 1
+let s:ag.use_default.abbreviations = 1
+let s:ag.toggle.mapping_message = 1
+let s:ag.toggle.mappings_to_cmd_history = 0
 
 " Folding configuration to obtain more tight compressing
-let s:ag.foldpath  = 1          " Include group path
-let s:ag.foldempty = 1          " Include trailing empty line
-let s:ag.folddelim = 0          " Include context delimiter '--'
-let s:ag.syntax_in_context = 1  " Embeds syntax in context area (also)
+let s:ag.toggle.foldpath  = 1          " Include group path
+let s:ag.toggle.foldempty = 1          " Include trailing empty line
+let s:ag.toggle.folddelim = 0          " Include context delimiter '--'
+let s:ag.toggle.syntax_in_context = 1  " Embeds syntax in context area (also)
 
 
 function! ag#opts#init()
@@ -42,3 +45,28 @@ function! ag#opts#init()
         \."Check if the_silver_searcher is installed and available."
   endif
 endfunction
+
+
+fun! ag#opts#set(opt, ...)
+  if !exists('g:ag.'.a:opt)
+    echom "Option '".a:opt."' doesn't exist!"
+    return
+  endif
+  " if type(g:ag[a:opt]) != type(a:val)
+  "   echom "Option '".a:opt."' has different type than type of '".a:val."'."
+  let g:ag[a:opt] = join(a:000)
+  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+endf
+
+
+fun! ag#opts#toggle(...)
+  for opt in a:000 | if !exists('g:ag.toggle.'.opt)
+    echom "Option '".opt."' doesn't exist!" | return
+  endif | endfor
+  let msg = '  ag.toggle:'
+  for opt in a:000
+    let g:ag.toggle[opt] = !g:ag.toggle[opt]
+    let msg .= ' '.opt.'='.g:ag.toggle[opt]
+  endfor
+  echo msg
+endf
