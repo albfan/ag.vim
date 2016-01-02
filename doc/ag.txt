@@ -197,6 +197,33 @@ Every search issued from shortcuts in normal or visual mode, is added to
 history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
   let g:ag.mappings_to_cmd_history=1
 <
+==============================================================================
+ABBREVIATIONS                                                    *ag-abbrev*
+
+In command line you can use *:cabbrev* restricted to the beginning of line,
+which generally are much simpler to type. They expand into full commands on
+any non-*'iskeyword'* characters like <Space>, <CR> or !.
+
+General allowed formula:
+
+    :\A*ag{lgr}{absfh}
+
+    \A*         match any range/counter specifiers (:'<,'>  :.,.+2 :3: :21 )
+    ag{lgr}     prefix for one of viewers (qflist, loclist, group, repeat)
+    {absfh}     suffix of source (pwd, add, buffer, slash-reg, filelist, help)
+
+
+Examples:
+
+    :ag     -> :Ag
+    :agfl   -> :LAgFile
+    3: agr  -> :.,.+2 AgRepeat
+    viw:agb -> :'<,'>AgBuffer
+    :3 agg! -> :3 AgGroup!  (Alt: use ':' instead of space:  :3:agg)
+
+    Note: space or colon delimiter between adjacent number and abbreviation
+    is mandatory to trigger cabbrev instead of treating it as whole.
+    (So :3ag<Space> don't work, because '3ag' is treated as single command)
 
 ==============================================================================
 MAPPINGS                                                         *ag-mappings*
