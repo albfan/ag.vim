@@ -19,7 +19,7 @@ Expect (matches on line 3,11,12 and 14):
   14:13:      echo 'fuga does not contains z'
 
 Execute(find multiword "let hoge" on t/fixture directory):
-  :AgGroup "let hoge" fixture
+  AgGroup "let hoge" fixture
 
 Expect (match on line 2):
   fixture/sample.vim
@@ -30,7 +30,7 @@ Then (syntax for multiword "let hoge"):
   AssertEqual SyntaxAt(2,9), 'agSearch'
 
 Execute(find word with #):
-  :AgGroup "sample#Bar" fixture
+  AgGroup "sample#Bar" fixture
 
 Expect (match on line 20 and 21):
   fixture/sample.vim
@@ -38,7 +38,7 @@ Expect (match on line 20 and 21):
   21:41:   echo "this is sample function called sample#Bar"
 
 Execute(find word with %):
-  :AgGroup "%foge" fixture
+  AgGroup "%foge" fixture
 
 Expect (match on line 22 and 41):
   fixture/sample.vim
@@ -47,19 +47,36 @@ Expect (match on line 22 and 41):
 Execute (history addition):
   let g:ag.toggle.mappings_to_cmd_history = 1
   "do a search
-  :AgGroup "hoge" fixture
+  AgGroup "hoge" fixture
   "goto line
   ":execute "normal \<Space>"
-  :call ag#ctrl#NextFold()
+  call ag#ctrl#NextFold()
   ":execute "normal \<Enter>"
-  :call ag#ctrl#OpenFile(0)
+  call ag#ctrl#OpenFile(0)
   "move around
-  :normal j
+  normal j
   "search with shortcut
   ":execute "normal \<Leader>ag"
-  :execute "normal \<Plug>(ag-group)"
+  execute "normal \<Plug>(ag-group)"
   "expect search to be on history
-  :AssertEqual histget(":"), "AgGroup '-Qw' 'fuga'"
+  AssertEqual histget(":"), "AgGroup '-Qw' 'fuga'"
+
+Execute (visual search multiword):
+  edit fixture/sample.vim
+  " visual select 'hoge is'
+  1
+  normal 5j3wv2e\ag
+
+Expect (two matches on line 6 and 8):
+  fixture/sample.vim
+  6:13:      echo "hoge is 0"
+  8:13:      echo "hoge is not 0"
+
+Then (highlight for multiword "hoge is"):
+  AssertEqual SyntaxAt(2,18), 'agSearch'
+  AssertEqual SyntaxAt(3,18), 'agSearch'
+  AssertEqual SyntaxAt(2,24), 'agSearch'
+  AssertEqual SyntaxAt(3,24), 'agSearch'
 
 ================================
 Execute (::Release fixture):
