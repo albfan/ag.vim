@@ -137,17 +137,6 @@ function! ag#ctrl#ToggleEntireFold()
   endif
 endfunction
 
-
-function! ag#ctrl#FoldAg()
-  let line = getline(v:lnum)
-  if empty(line)
-    return '0'
-  else
-    return '1'
-  endif
-  return '0'
-endfunction
-
 function! ag#ctrl#ForwardSkipConceal(count)
   let cnt=a:count
   let mvcnt=0
