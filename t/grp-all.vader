@@ -78,6 +78,11 @@ Then (highlight for multiword "hoge is"):
   AssertEqual SyntaxAt(2,24), 'agSearch'
   AssertEqual SyntaxAt(3,24), 'agSearch'
 
+Execute (don't open search buffer if no results):
+  edit fixture/sample.vim
+  AgGroup nomatch fixture
+  AssertEqual 'fixture/sample.vim', bufname('%')
+
 ================================
 Execute (::Release fixture):
   syntax off
