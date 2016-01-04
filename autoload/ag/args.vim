@@ -9,7 +9,7 @@ function! ag#args#auto(args)
     endif
   endif
   " THINK:FIX: this vsel disables using ranges?
-  return ( g:ag.visual 
+  return ( exists('g:ag.visual') && g:ag.visual
     \ ? ag#args#vsel('\n') 
     \ : !empty(expand("<cword>"))
        \ ? ag#args#cword()

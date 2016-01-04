@@ -1,6 +1,6 @@
 " TODO: replace by direct patt supplying from bind args list
 function! ag#group#get_patt(p)
-  if g:ag.last.auto
+  if exists('g:ag.last.auto') && g:ag.last.auto
     let args = join(g:ag.last.args[1:], " ")
   else
     let args = join(g:ag.last.orig_args, " ")
