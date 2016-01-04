@@ -29,6 +29,10 @@ function! ag#group#search(args, frgx)
   let l:cmdline = g:ag.prg_grp.' '.fileregexp.' '.context.' '.a:args
   call ag#bind#populate('put =', l:cmdline)
   1delete _
+  if line('$') == 1 && getline(1) == ''
+    close
+    return
+  endif
   setlocal nomodifiable
 
   " REM:FIXME: -- after disallowing raw options in #55 and setting it directly
