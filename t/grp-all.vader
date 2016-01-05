@@ -1,10 +1,6 @@
 
 """ check AgGroup command
 
-================================
-Execute (::Hold syntax fixture):
-  syntax on
-=========== AgGroup =============
 Execute(Find "fuga" inside t/fixture directory):
   :AgGroup fuga fixture
 
@@ -81,7 +77,3 @@ Execute (don't open search buffer if no results):
   edit fixture/sample.vim
   AgGroup nomatch fixture
   AssertEqual 'fixture/sample.vim', bufname('%')
-
-================================
-Execute (::Release fixture):
-  syntax off
