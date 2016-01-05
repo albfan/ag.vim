@@ -12,12 +12,15 @@ endif
 
 syntax case match  " Individual ignorecase done by '\c' prefix (performance)
 
+" EXPL: compatibility fix with v7.2
+let s:line_opts = 'display oneline keepend contained'
+    \.(has('conceal') ? ' concealends' : '')
 
 " EXPL: _implicit_ cluster @agMatchG used to toggle the highlighting options
-syn region agMatchLine  concealends display oneline keepend contained
-    \ contains=@agMatchG
-    \ matchgroup=agMatchNum start='\v^%(\d+:){1,2}'
-    \ matchgroup=NONE excludenl end='$'
+execute "
+  \ syn region agMatchLine ".s:line_opts." contains=@agMatchG
+  \ matchgroup=agMatchNum start='\\v^%(\\d+:){1,2}'
+  \ matchgroup=NONE excludenl end='$'"
 
 
 " EXPL: fold continuous piece of file only when used search with context
@@ -33,7 +36,7 @@ if g:ag.last.context !=# ''
   endif
 
   execute "
-    \ syn region agContextLine  concealends display keepend oneline contained
+    \ syn region agContextLine ".s:line_opts."
     \ matchgroup=agContextNum start='^\\d\\+-' matchgroup=NONE end='$'
     \ contains=".(g:ag.toggle.syntax_in_context ? '@agMatchG' : 'NONE')
   execute "
