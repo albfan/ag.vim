@@ -40,12 +40,27 @@ let s:ag.toggle.syntax_in_context = 1  " Embeds syntax in context area (also)
 
 
 function! ag#opts#init()
-  let g:ag = extend(get(g:, 'ag', {}), s:ag, 'keep')
+  if exists('g:ag') && type(g:ag) == type({})
+    call ag#opts#merge(g:ag, s:ag)
+  else
+    let g:ag = s:ag
+  endif
   if !executable(g:ag.bin)
     throw "Binary '".g:ag.bin."' was not found in your $PATH. "
         \."Check if the_silver_searcher is installed and available."
   endif
 endfunction
+
+
+fun! ag#opts#merge(dst, aug)
+  call extend(a:dst, a:aug, 'keep')
+  for k in keys(a:aug) | if type(a:aug[k]) == type({})
+    if type(a:dst[k]) != type({})
+      throw "Wrong type '".type(a:dst[k])."' for '".k."' option."
+    endif
+    call ag#opts#merge(a:dst[k], a:aug[k])
+  endif | endfor
+endf
 
 
 fun! ag#opts#set(opt, ...)
