@@ -67,6 +67,9 @@ Expect (two matches on line 6 and 8):
   6:13:      echo "hoge is 0"
   8:13:      echo "hoge is not 0"
 
+Execute:
+  close
+
 Then (highlight for multiword "hoge is"):
   AssertEqual SyntaxAt(2,18), 'agSearch'
   AssertEqual SyntaxAt(3,18), 'agSearch'
