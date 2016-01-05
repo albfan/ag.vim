@@ -30,6 +30,7 @@ function! ag#group#search(args, frgx)
   call ag#bind#populate('put =', l:cmdline)
   1delete _
   if line('$') == 1 && getline(1) == ''
+    echo "No results"
     close
     return
   endif
