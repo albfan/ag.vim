@@ -1,3 +1,5 @@
+call ag#syntax#init_buffer()
+
 if !exists('b:ag_apply_mappings') || !b:ag_apply_mappings | finish | endif
 
 " TODO:DEV: option to enable mappings in every qf, or only for ag

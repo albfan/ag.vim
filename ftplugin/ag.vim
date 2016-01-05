@@ -1,10 +1,7 @@
+call ag#syntax#init_buffer()
+
 setlocal foldmethod=syntax
 setlocal foldcolumn=2
-
-" ALT:TRY: change ft in default way by hooking autocmd of 'setf <ft>'
-"   -- au Syntax <buffer> call ag#syntax#set(<amatch>)' -- when <afile>==ag
-execute "comm! -buffer -nargs=? ".(v:version<703 ?'': '-complete=filetype')."
-  \ AgFt  call ag#syntax#set(<q-args>)"
 
 noremap <silent> <buffer> o       zaj
 noremap <silent> <buffer> <Space> :call ag#ctrl#NextFold()<CR>

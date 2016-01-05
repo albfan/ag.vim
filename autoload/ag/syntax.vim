@@ -1,10 +1,18 @@
 """ Syntax helpers for syntax/ag.vim
 
+" ALT:TRY: change ft in default way by hooking autocmd of 'setf <ft>'
+"   -- au Syntax <buffer> call ag#syntax#set(<amatch>)' -- when <afile>==ag
+function! ag#syntax#init_buffer()
+  exe "comm! -buffer -nargs=? ".(v:version<703 ?'': '-complete=filetype')."
+      \ AgFt  call ag#syntax#set(<q-args>)"
+endfunction
+
 " Change embedded syntax / update after changing any of b:ag._ options
 function! ag#syntax#set(ft)
   let g = '@agEmbedSyn'
+  let main_syntax = get(b:, 'current_syntax', '')
   " EXPL: remove all previously embedded syntax groups (sole method)
-  syntax clear | set syntax=ag
+  syntax clear | let &syntax = main_syntax
   if a:ft ==# '' | return | endif
   exe 'syn cluster agMatchG add='.g
   " EXPL: load even syntax files with single-time loading guards
@@ -12,7 +20,8 @@ function! ag#syntax#set(ft)
   " BUG: embedded syntax expects start-of-line '^' -- but there placed '\d:\d:'
   try|exe 'syn include '.g.' syntax/'.a:ft.'.vim'      |catch/E403\|E484/|endtry
   try|exe 'syn include '.g.' after/syntax/'.a:ft.'.vim'|catch/E403\|E484/|endtry
-  let b:current_syntax = 'ag'  " EXPL: restore default guard (necessary)
+  let b:current_syntax = main_syntax
+  if empty(b:current_syntax) | unlet b:current_syntax | endif
 endfunction
 
 

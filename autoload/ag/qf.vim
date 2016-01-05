@@ -18,6 +18,7 @@ function! ag#qf#search(args, cmd)
       let b:ag_apply_mappings = g:ag.use_default.qmappings
       let b:ag_win_prefix = 'c' " we're using the quickfix window
     endif
+    let b:ag = get(b:, 'ag', {})
     setfiletype qf
   endif
 
