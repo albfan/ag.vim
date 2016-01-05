@@ -49,15 +49,14 @@ Execute (history addition):
   "do a search
   AgGroup "hoge" fixture
   "goto line
-  ":execute "normal \<Space>"
+  "execute "normal \<Space>"
   call ag#ctrl#NextFold()
-  ":execute "normal \<Enter>"
+  "execute "normal \<Enter>"
   call ag#ctrl#OpenFile(0)
   "move around
   normal j
   "search with shortcut
-  ":execute "normal \<Leader>ag"
-  execute "normal \<Plug>(ag-group)"
+  execute "normal ".get(g:, "mapleader", "\\")."ag"
   "expect search to be on history
   AssertEqual histget(":"), "AgGroup '-Qw' 'fuga'"
 
@@ -65,7 +64,7 @@ Execute (visual search multiword):
   edit fixture/sample.vim
   " visual select 'hoge is'
   1
-  normal 5j3wv2e\ag
+  execute "normal 5j3wv2e".get(g:, "mapleader", "\\")."ag"
 
 Expect (two matches on line 6 and 8):
   fixture/sample.vim
