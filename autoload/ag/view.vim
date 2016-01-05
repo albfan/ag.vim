@@ -9,7 +9,7 @@ endfunction
 
 
 function! s:qfcmd(m)
-  return (a:m=~#'+' ? 'add' : (a:m=~#'!' ?'': 'get')).'expr'
+  return (a:m=~#'+' ? 'add' : (g:ag.toggle.open_first ?'': 'get')).'expr'
 endfunction
 
 

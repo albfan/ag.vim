@@ -21,6 +21,7 @@ let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 
 let s:ag.toggle = {}
 let s:ag.toggle.highlight = 0
 let s:ag.toggle.goto_exact_line = 0
+let s:ag.toggle.open_first = 0
 
 " Mappings
 let s:ag.use_default = {}
