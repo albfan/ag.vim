@@ -26,7 +26,7 @@ function! ag#args#vsel(...)
   let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
   let lines[0] = lines[0][col1 - 1:]
   " TODO: for derived always add -Q -- if don't have option 'treat_as_rgx'
-  return a:0 >= 1 ? ['-Q', join(lines, a:1)] : lines
+  return a:0 >= 1 ? [join(lines, a:1)] : lines
 endfunction
 
 
@@ -38,5 +38,5 @@ endfunction
 
 
 function! ag#args#cword()
-  return ['-Qw', expand("<cword>")]
+  return [expand("<cword>")]
 endfunction
