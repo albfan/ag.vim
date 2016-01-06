@@ -34,7 +34,7 @@ Do (Empty in NORMAL):
   :Ag\<CR>
 
 Expect (1 file, 1 match):
-  single
+  space|1 col 1| singleword
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Given (Single word VSEL):
