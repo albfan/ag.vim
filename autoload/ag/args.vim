@@ -13,7 +13,9 @@ function! ag#args#auto(args)
     \ ? ag#args#vsel('\n') 
     \ : !empty(expand("<cword>"))
        \ ? ag#args#cword()
-       \ : g:ag.last.args)
+       \ : exists('g:ag.last.args') 
+           \ ? g:ag.last.args
+           \ : "" )
 endfunction
 
 
