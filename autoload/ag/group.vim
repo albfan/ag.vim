@@ -4,16 +4,23 @@ function! ag#group#get_patt(p)
     let args = join(g:ag.last.args[1:], " ")
   else
     let args = join(g:ag.last.orig_args, " ")
-    let args = args =~# '^"' 
-          \ ? split(args, '"')[0] 
-          \ : args =~# "^'" 
-              \ ? split(args, "'")[0] 
+    let args = args =~# '^"'
+          \ ? split(args, '"')[0]
+          \ : args =~# "^'"
+              \ ? split(args, "'")[0]
               \ : split(args, '\s\+')[0]
   endif
   return args
 endfunction
 
 function! ag#group#search(args, frgx)
+  let context = (v:count<1 ?'': '-C '.v:count)
+  let fileregexp = (a:frgx==#'' ?'': '-G '.a:frgx)
+  let l:cmdline = g:ag.prg_grp.' '.context.' '.fileregexp.' '.a:args
+
+  let _ = ag#bind#exec(l:cmdline)
+  if empty(_) | return | endif
+
   silent! wincmd P
   if !&previewwindow
     exe g:ag.nhandler
@@ -23,17 +30,7 @@ function! ag#group#search(args, frgx)
   setlocal modifiable
   execute "silent %delete_"
   setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nowrap
-
-  let fileregexp = (a:frgx==#'' ?'': '-G '.a:frgx)
-  let context = (v:count<1 ?'': '-C '.v:count)
-  let l:cmdline = g:ag.prg_grp.' '.fileregexp.' '.context.' '.a:args
-  call ag#bind#populate('put =', l:cmdline)
-  1delete _
-  if line('$') == 1 && getline(1) == ''
-    echo "No results"
-    close
-    return
-  endif
+  put = _ | 1delete _
   setlocal nomodifiable
 
   " REM:FIXME: -- after disallowing raw options in #55 and setting it directly

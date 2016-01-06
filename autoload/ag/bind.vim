@@ -12,6 +12,23 @@ function! ag#bind#join(args)
 endfunction
 
 
+function! s:lcd(f, varg)
+  let l:cwd_old = getcwd()
+  let l:cwd = ag#paths#pjroot('nearest')
+  try
+    exe "lcd ".l:cwd
+  catch
+    echom 'Failed to change directory to:'.l:cwd
+  finally
+    let _ = call(f, a:varg)
+    if l:cwd !=# l:cwd_old
+      exe "lcd ".l:cwd_old
+    endif
+  endtry
+  return _
+endfunction
+
+
 if exists('*systemlist')  " ALT: has('patch-7.4.248')
   " NOTE: when empty, returns '' instead of []
   exe "fun! s:sh(_)\nreturn systemlist(a:_)\nendf"
@@ -20,8 +37,18 @@ else
   exe "fun! s:sh(_)\nreturn split(system(a:_),'\\n')\nendf"
 endif
 
-function! ag#bind#populate(consumer, shellcmd)
-  silent exec a:consumer.' s:sh(a:shellcmd)'
+function! ag#bind#exec(...)
+  if g:ag.working_path_mode ==? 'r'
+    let _ = s:lcd('s:sh', a:000)
+  else
+    let _ = call('s:sh', a:000)
+  endif
+  if empty(_)
+    echohl WarningMsg
+    echom "No matches for '".join(g:ag.last.args)."'"
+    echohl None
+  endif
+  return _
 endfunction
 
 

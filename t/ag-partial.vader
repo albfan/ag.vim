@@ -5,6 +5,10 @@
 = :Ag [<options>..] regex [<path>..]
 
 ================================
+Before (clear qf lists):
+  cgetexpr []
+  lgetexpr []
+
 Execute (::Hold cwd fixture):
   cd fixture
 =========== Single =============

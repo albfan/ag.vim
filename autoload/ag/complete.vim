@@ -8,7 +8,7 @@ endf
 fun! ag#complete#file_fuzzy(arg, line, pos)
   let [l, n] = s:largs(a:line, a:pos)
   let l:cmd = g:ag.bin." -S -g ".shellescape(a:arg)
-  if n>1 | return ag#bind#populate('return', l:cmd) | endif
+  if n>1 | return ag#bind#exec(l:cmd) | endif
 endfun
 
 
