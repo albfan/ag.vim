@@ -16,17 +16,9 @@ function! ag#ctrl#DeleteFold()
     normal zo
   endif
   "normal stops if command fails. On  cursor at beginning of fold motion fails
-  normal! [z
-  let first = line('.') == 1
-  if !first
-    normal! k
-  endif
-  normal! V]zD
-  if first
-     normal! dd
-  endif
+  normal [z
+  normal V]zD
   setlocal nomodifiable
-  call ag#group#highlight_filenames()
 endfunction
 
 " Find next fold or go back to first one
