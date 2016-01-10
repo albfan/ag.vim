@@ -1,11 +1,14 @@
 
 """ check AgGroup command
 
-Execute(Find "fuga" inside t/fixture directory):
+Execute(Find "fuga" inside fixture directory):
   :AgGroup fuga fixture
 
-Then (syntax for multiword match "let"):
+Then (syntax for search match "fuga"):
   AssertEqual SyntaxAt(2,14), 'agSearch'
+  AssertEqual SyntaxAt(3,14), 'agSearch'
+  AssertEqual SyntaxAt(4,21), 'agSearch'
+  AssertEqual SyntaxAt(5,21), 'agSearch'
 
 Expect (matches on line 3,11,12 and 14):
   fixture/sample.vim
@@ -14,16 +17,27 @@ Expect (matches on line 3,11,12 and 14):
   12:13:      echo "fuga contains z"
   14:13:      echo 'fuga does not contains z'
 
-Execute(find multiword "let hoge" on t/fixture directory):
+Execute(find multiword "let hoge" on fixture directory):
   AgGroup "let hoge" fixture
 
 Then (syntax for multiword "let hoge"):
   AssertEqual SyntaxAt(2,8), 'agSearch'
-  AssertEqual SyntaxAt(2,9), 'agSearch'
+  AssertEqual SyntaxAt(2,15), 'agSearch'
 
-Expect (match on line 2):
+Expect (matches for "let hoge"):
   fixture/sample.vim
   2:4:   let hoge = 0
+
+Execute(find multiword "fuga does not contains" on fixture directory):
+  AgGroup "fuga does not contains" fixture
+
+Then (syntax for multiword "fuga does not contains"):
+  AssertEqual SyntaxAt(2,19), 'agSearch'
+  AssertEqual SyntaxAt(2,42), 'agSearch'
+
+Expect (matches for "fuga does not contains"):
+  fixture/sample.vim
+  14:13:      echo 'fuga does not contains z'
 
 Execute(find word with #):
   AgGroup "sample#Bar" fixture

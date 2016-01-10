@@ -68,12 +68,22 @@ endfunction
 function! ag#bind#fix_fargs(args)
   if len(a:args) < 2 | return a:args | endif
   let a = a:args
-  for i in range(0, len(a) - 2)
-    if (a[i] =~# '^".*[^"]$' && a[i+1] =~# '^[^"].*"$')
-    \||(a[i] =~# "^'.*[^']$" && a[i+1] =~# "^[^'].*'$")
-      let a[i] .= ' '.remove(a, i+1)
-    endif
-  endfor
+  let lena = len(a)
+  let i = 0
+  while i < lena
+    let j = 1
+    while j < lena - i
+      if (a[i] =~# '^".*[^"]$' && a[i+j] =~# '^[^"].*"$')
+        \||(a[i] =~# "^'.*[^']$" && a[i+j] =~# "^[^'].*'$")
+        for k in range(1, j)
+          let a[i] .= ' '.remove(a, i+1)
+        endfor
+        let lena-=j
+      endif
+      let j += 1
+    endwhile
+    let i += 1
+  endwhile
   return a
 endfunction
 
