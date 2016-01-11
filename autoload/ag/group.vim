@@ -14,7 +14,7 @@ function! ag#group#get_patt(p)
 endfunction
 
 function! ag#group#search(args, frgx)
-  let context = (v:count<1 ?'': '-C '.v:count)
+  let context = (g:ag.count > 1 ? '-C '.g:ag.count : '')
   let fileregexp = (a:frgx==#'' ?'': '-G '.a:frgx)
   let l:cmdline = g:ag.prg_grp.' '.context.' '.fileregexp.' '.a:args
 

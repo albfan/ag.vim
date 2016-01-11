@@ -5,6 +5,8 @@ Execute(Find "fuga" inside fixture directory):
   :AgGroup fuga fixture
 
 Then (syntax for search match "fuga"):
+  AssertEqual SyntaxAt(1,1), 'agPath'
+  AssertEqual SyntaxAt(2,1), 'agMatchNum'
   AssertEqual SyntaxAt(2,14), 'agSearch'
   AssertEqual SyntaxAt(3,14), 'agSearch'
   AssertEqual SyntaxAt(4,21), 'agSearch'
@@ -17,7 +19,34 @@ Expect (matches on line 3,11,12 and 14):
   12:13:      echo "fuga contains z"
   14:13:      echo 'fuga does not contains z'
 
+Execute(Find "fuga" with context):
+  :3AgGroup fuga fixture
+
+Then (syntax for context search):
+  AssertEqual SyntaxAt(2,3), 'agContextLine'
+
+Expect (matches with context):
+  fixture/sample.vim
+  1-function! Foo(bar)
+  2-   let hoge = 0
+  3:8:   let fuga = 'bazz'
+  4-
+  5-   if hoge == 0
+  6-      echo "hoge is 0"
+  --
+  8-      echo "hoge is not 0"
+  9-   endif
+  10-
+  11:7:   if fuga =~ 'z'
+  12:13:      echo "fuga contains z"
+  13-   else
+  14:13:      echo 'fuga does not contains z'
+  15-   endif
+  16-
+  17-   echo 'argument bar is ' . a:bar
+
 Execute(find multiword "let hoge" on fixture directory):
+  close
   AgGroup "let hoge" fixture
 
 Then (syntax for multiword "let hoge"):
@@ -33,7 +62,7 @@ Execute(find multiword "fuga does not contains" on fixture directory):
 
 Then (syntax for multiword "fuga does not contains"):
   AssertEqual SyntaxAt(2,19), 'agSearch'
-  AssertEqual SyntaxAt(2,42), 'agSearch'
+  AssertEqual SyntaxAt(2,40), 'agSearch'
 
 Expect (matches for "fuga does not contains"):
   fixture/sample.vim

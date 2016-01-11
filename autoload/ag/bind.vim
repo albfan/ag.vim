@@ -108,8 +108,9 @@ function! ag#bind#f(view, args, paths, cmd)
   call ag#bind#call(g:ag.last)
 endfunction
 
-function! ag#bind#f_tracked(cmd, visual, ...)
+function! ag#bind#f_tracked(cmd, visual, count, ...)
   let g:ag.visual = a:visual
+  let g:ag.count = a:count
   call call('ag#bind#f', a:000)
   if g:ag.toggle.mappings_to_cmd_history
      call histadd(":", a:cmd.' '.ag#bind#join(g:ag.last.args + g:ag.last.paths))

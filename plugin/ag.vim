@@ -33,8 +33,8 @@ command! -bang -range -nargs=* -complete=customlist,s:fc LAgFile      call ag#bi
 command! -bang -range -nargs=* -complete=help            LAgHelp      call ag#bind#f('loc', [<f-args>], 'help', '<bang>')
 
 command! -bang -count                                    AgRepeat     call ag#bind#repeat()
-command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      call ag#bind#f('grp', [<f-args>], [], '')
-command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f('grp', [<f-args>], [], -1)
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', [<f-args>], [], '')
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', [<f-args>], [], -1)
 
 
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<f-args>)
@@ -90,8 +90,8 @@ noremap <silent> <Plug>(ag-loc-file)     :<C-u>call ag#bind#f('loc', ['-g'], [],
 noremap <silent> <Plug>(ag-loc-help)     :<C-u>call ag#bind#f('loc', [], 'help', '')<CR>
 
 nnoremap <silent> <Plug>(ag-repeat) :<C-u>call ag#bind#repeat()<CR>
-nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 'grp', [], [], '')<CR>
-xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 'grp', [], [], '')<CR>
+nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 1, 'grp', [], [], '')<CR>
+xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 1, 'grp', [], [], '')<CR>
 
 
 if g:ag.use_default.mappings
