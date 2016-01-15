@@ -21,17 +21,39 @@ function! ag#ctrl#DeleteFold()
   setlocal nomodifiable
 endfunction
 
+function! ag#ctrl#NextFold()
+  call ag#ctrl#GotoFold(1)
+endfunction
+
+function! ag#ctrl#PrevFold()
+  call ag#ctrl#GotoFold(0)
+endfunction
+
 " Find next fold or go back to first one
 "
-function! ag#ctrl#NextFold()
+function! ag#ctrl#GotoFold(next)
+  if a:next
+    let dir = "zj"
+  else
+    let dir = "zk[z"
+  endif
+
+  if foldclosed(".") != -1
+    normal zv 
+    return
+  endif
   let save_a_mark = getpos("'a")
   let mark_a_exists = save_a_mark[1] == 0
   mark a
-  execute 'normal zMzjzo'
+  execute 'normal '.dir.'zv'
   if getpos('.')[1] == getpos("'a")[1]
     "no movement go to first position
-    normal gg
-    execute 'normal zMzjzo'
+    if a:next
+      normal gg
+    else
+      normal GG
+    endif
+    normal zv
   endif
   if mark_a_exists
     call setpos("'a", save_a_mark)
@@ -122,7 +144,7 @@ endfunction
 
 
 function! ag#ctrl#ToggleEntireFold()
-  if foldclosed(2) == -1
+  if foldclosed(1) == -1
     normal zM
   else
     normal zR

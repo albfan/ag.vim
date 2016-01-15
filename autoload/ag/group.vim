@@ -45,3 +45,19 @@ function! ag#group#search(args, frgx)
   let l:ignore_case = (l:pattern !~# '[A-Z]')
   call ag#syntax#himatch_pcre(l:pattern, l:ignore_case)
 endfunction
+
+function! ag#group#next()
+  silent! wincmd P
+  if &previewwindow
+    call ag#ctrl#NextFold()
+    call ag#ctrl#OpenFile(0)
+  endif
+endfunction
+
+function! ag#group#prev()
+  silent! wincmd P
+  if &previewwindow
+    call ag#ctrl#PrevFold()
+    call ag#ctrl#OpenFile(0)
+  endif
+endfunction

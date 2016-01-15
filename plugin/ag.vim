@@ -40,6 +40,9 @@ command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bi
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<f-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_toggle AgToggle  call ag#opts#toggle(<f-args>)
 
+command! -bang -nargs=0 AgNext  call ag#group#next()
+command! -bang -nargs=0 AgPrev  call ag#group#prev()
+
 
 if g:ag.use_default.abbreviations
   let s:ag_cabbrev =[
@@ -60,6 +63,8 @@ if g:ag.use_default.abbreviations
     \ ['agg',  'AgGroup'],
     \ ['aggroup',  'AgGroup'],
     \ ['aggf', 'AgGroupFile'],
+    \ ['agn', 'AgNext'],
+    \ ['agp', 'AgPrev'],
   \]
 
   function! s:expabbr(lhs, rhs)
@@ -93,6 +98,8 @@ nnoremap <silent> <Plug>(ag-repeat) :<C-u>call ag#bind#repeat()<CR>
 nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 1, 'grp', [], [], '')<CR>
 xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 1, 'grp', [], [], '')<CR>
 
+nnoremap <silent> <Leader>gg :AgNext<CR>
+nnoremap <silent> <Leader>pp :AgPrev<CR>
 
 if g:ag.use_default.mappings
   let s:ag_mappings = [
