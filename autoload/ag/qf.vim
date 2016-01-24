@@ -1,5 +1,5 @@
 function! ag#qf#search(args, cmd)
-  let _ = ag#bind#exec(g:ag.prg.' '.a:args)
+  let _ = ag#bind#exec(ag#provider#ag(g:ag.last))
   if empty(_) | return | endif
 
   call ag#qf#populate(a:cmd, _)

@@ -14,11 +14,8 @@ function! ag#group#get_patt(p)
 endfunction
 
 function! ag#group#search(args, frgx)
-  let context = (g:ag.count > 1 ? '-C '.g:ag.count : '')
-  let fileregexp = (a:frgx==#'' ?'': '-G '.a:frgx)
-  let l:cmdline = g:ag.prg_grp.' '.context.' '.fileregexp.' '.a:args
-
-  let _ = ag#bind#exec(l:cmdline)
+  let g:ag.last.filter = a:frgx
+  let _ = ag#bind#exec(ag#provider#ag(g:ag.last))
   if empty(_) | return | endif
 
   silent! wincmd P
@@ -32,10 +29,6 @@ function! ag#group#search(args, frgx)
   setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nowrap
   put = _ | 1delete _
   setlocal nomodifiable
-
-  " REM:FIXME: -- after disallowing raw options in #55 and setting it directly
-  let g:ag.last.context = matchstr(l:cmdline,
-        \ '\v\s+%(-C|''-C'')\s*%(\zs\d+\ze|''\zs\d+\ze'')%(\s+|$)')
 
   setfiletype ag
   " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance

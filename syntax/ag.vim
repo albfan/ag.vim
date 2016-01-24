@@ -24,7 +24,7 @@ execute "
 
 
 " EXPL: fold continuous piece of file only when used search with context
-if g:ag.last.context !=# ''
+if !empty(g:ag.last.count)
   syn cluster agGroupG  contains=agContextBlock
   syn cluster agContextG  contains=agContextLine,agMatchLine
 

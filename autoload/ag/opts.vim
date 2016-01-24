@@ -1,16 +1,21 @@
 let s:ag = {}
+let s:ag.toggle = {}
 
 " Inner fields
 let s:ag.bin = 'ag'
 let s:ag.ver = get(split(system(s:ag.bin.' --version'), '\_s'), 2, '')
-
 " --vimgrep (consistent output we can parse) is available from ag v0.25.0+
-let s:ag.prg = s:ag.bin . (s:ag.ver !~# '\v0\.%(\d|1\d|2[0-4])%(\.\d+|$)' ?
-      \ ' --vimgrep' : ' --column --nogroup --noheading')
-let s:ag.prg .=' --smart-case --ignore tags'  " TEMP:REMOVE?
-let s:ag.prg_grp = s:ag.bin . ' --column --group --heading'
-let s:ag.prg_grp .=' --smart-case --ignore tags'  " TEMP:REMOVE?
-let s:ag.last = {}
+let s:ag.default = {}
+let s:ag.default.qf = (s:ag.ver !~# '\v0\.%(\d|1\d|2[0-4])%(\.\d+|$)' ?
+      \ ['--vimgrep'] : ['--column', '--nogroup', '--noheading'])
+let s:ag.default.grp = ['--column', '--group', '--heading']
+
+" Cmdline
+" NOTE: for now use global case option, then move into .last if convenient
+let s:ag.ignore = 'tags'
+let s:ag.toggle.literal_vsel = 1
+let s:ag.toggle.ignore_case = 0
+let s:ag.toggle.smart_case = 1
 
 " Settings
 let s:ag.qhandler = "botright copen"
@@ -18,7 +23,6 @@ let s:ag.lhandler = "botright lopen"
 let s:ag.nhandler = "botright new"
 let s:ag.working_path_mode = 'c'
 let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 'build.xml']
-let s:ag.toggle = {}
 let s:ag.toggle.highlight = 0
 let s:ag.toggle.goto_exact_line = 0
 let s:ag.toggle.open_first = 0
@@ -39,12 +43,28 @@ let s:ag.toggle.folddelim = 0          " Include context delimiter '--'
 let s:ag.toggle.syntax_in_context = 1  " Embeds syntax in context area (also)
 
 
+" NOTE: resets search entry to default state with defined fields
+" EXPL: used to eliminate 'exists(...)' checks spread throughout the code
+function! ag#opts#init_last(gstate)
+  let a:gstate.last = {}
+  let state = a:gstate.last
+  let state.view = 'qf'
+  let state.pattern = ''
+  let state.filter = ''
+  let state.count = 0
+  " Toggle
+  let state.word = 0
+  let state.literal = 0
+endfunction
+
+
 function! ag#opts#init()
   if exists('g:ag') && type(g:ag) == type({})
     call ag#opts#merge(g:ag, s:ag)
   else
     let g:ag = s:ag
   endif
+  call ag#opts#init_last(g:ag)
   if !executable(g:ag.bin)
     throw "Binary '".g:ag.bin."' was not found in your $PATH. "
         \."Check if the_silver_searcher is installed and available."
