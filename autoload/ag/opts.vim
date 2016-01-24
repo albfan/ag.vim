@@ -63,26 +63,30 @@ fun! ag#opts#merge(dst, aug)
 endf
 
 
-fun! ag#opts#set(opt, ...)
-  if !exists('g:ag.'.a:opt)
-    echom "Option '".a:opt."' doesn't exist!"
+" ATTENTION: rhs is evaluated and only then substituted. Use quotes to prevent.
+fun! ag#opts#set(cmdline)
+  let o = 'g:ag.' . matchstr(a:cmdline, '^\S\+')
+  if !exists(o)
+    echom "Option '".o."' doesn't exist!"
     return
   endif
   " if type(g:ag[a:opt]) != type(a:val)
   "   echom "Option '".a:opt."' has different type than type of '".a:val."'."
-  let g:ag[a:opt] = join(a:000)
-  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+  let rhs = matchstr(a:cmdline, '\v^\S+\s+\zs.*')
+  if !empty(rhs) | exec 'let '.o.' = '.rhs | endif
+  exec 'echo "  '.o.' = ".string('.o.')'
 endf
 
 
-fun! ag#opts#toggle(...)
-  for opt in a:000 | if !exists('g:ag.toggle.'.opt)
+fun! ag#opts#toggle(cmdline)
+  let l:lst = split(a:cmdline)
+  for opt in l:lst | if !exists('g:ag.toggle.'.opt)
     echom "Option '".opt."' doesn't exist!" | return
   endif | endfor
   let msg = '  ag.toggle:'
-  for opt in a:000
+  for opt in l:lst
     let g:ag.toggle[opt] = !g:ag.toggle[opt]
-    let msg .= ' '.opt.'='.g:ag.toggle[opt]
+    let msg .= '  '.opt.'='.g:ag.toggle[opt]
   endfor
   echo msg
 endf

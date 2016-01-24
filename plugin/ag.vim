@@ -37,8 +37,8 @@ command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      call ag#bi
 command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', [<f-args>], [], -1)
 
 
-command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<f-args>)
-command! -bang -nargs=+ -complete=customlist,ag#complete#opts_toggle AgToggle  call ag#opts#toggle(<f-args>)
+command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<q-args>)
+command! -bang -nargs=+ -complete=customlist,ag#complete#opts_toggle AgToggle  call ag#opts#toggle(<q-args>)
 
 command! -bang -nargs=0 AgNext  call ag#group#next()
 command! -bang -nargs=0 AgPrev  call ag#group#prev()
