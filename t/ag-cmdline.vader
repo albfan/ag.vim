@@ -7,6 +7,10 @@
 ================================
 Execute (::Hold cwd fixture):
   cd fixture
+  let g:ag_old = deepcopy(g:ag, 1)
+
+Before (Restore default options):
+  let g:ag = deepcopy(g:ag_old, 1)
 =========== Spaces =============
 Execute (Raw singleword):
   Ag singleword
@@ -38,14 +42,16 @@ Expect (1 file, 1 match):
 
 =========== Options ============
 Execute (Case-ignore -i caSeIGnoRe):
-  Ag -i ignore
+  AgSet toggle.ignore_case 1
+  Ag ignore
 
 Expect (1 file, 1 match):
   option|1 col 5| caSeIGnoRe
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Execute (Multiple flags -Q -w singleword):
-  Ag -Q -w 're.*x'
+Execute (Literal word -Q -w singleword):
+  AgSet toggle.literal_vsel 1
+  Ag \bre.*x\b
 
 Expect (1 file, 1 match):
   option|2 col 1| re.*x
