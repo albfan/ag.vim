@@ -13,6 +13,12 @@ function! ag#provider#ag(state)
     let argv += ['--ignore', g:ag.ignore]
   endif
 
+  if !empty(g:ag.ignore_list)
+    for ignore_item in g:ag.ignore_list
+      let argv += [ "--ignore", ignore_item ]
+    endfor
+  endif
+
   " Viewer-specific
   if a:state.view =~# '\v(qf|loc)$'
     let argv += g:ag.default.qf

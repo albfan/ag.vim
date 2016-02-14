@@ -26,6 +26,7 @@ let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 
 let s:ag.toggle.highlight = 0
 let s:ag.toggle.goto_exact_line = 0
 let s:ag.toggle.open_first = 0
+let s:ag.ignore_list = []
 
 " Mappings
 let s:ag.use_default = {}
@@ -82,6 +83,41 @@ fun! ag#opts#merge(dst, aug)
   endif | endfor
 endf
 
+fun! ag#opts#show(opt)
+  if !exists('g:ag.'.a:opt)
+    echom "Option '".a:opt."' doesn't exist!"
+    return
+  endif
+  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+endf
+
+fun! ag#opts#reset(opt)
+  if !exists('g:ag.'.a:opt)
+    echom "Option '".a:opt."' doesn't exist!"
+    return
+  endif
+  if type(g:ag[a:opt]) != type([])
+    let g:ag[a:opt] = []
+  elseif type(g:ag[a:opt]) != type("")
+    let g:ag[a:opt] = ""
+  elseif type(g:ag[a:opt]) != type(0)
+    let g:ag[a:opt] = 0
+  endif
+  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+endf
+
+fun! ag#opts#append(opt, ...)
+  if !exists('g:ag.'.a:opt)
+    echom "Option '".a:opt."' doesn't exist!"
+    return
+  endif
+  if type(g:ag[a:opt]) != type([])
+    echom "Option '".a:opt."' is not a list"
+    return
+  endif
+  call extend(g:ag[a:opt], a:000)
+  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+endf
 
 " ATTENTION: rhs is evaluated and only then substituted. Use quotes to prevent.
 fun! ag#opts#set(cmdline)
@@ -97,6 +133,15 @@ fun! ag#opts#set(cmdline)
   exec 'echo "  '.o.' = ".string('.o.')'
 endf
 
+fun! ag#opts#ignore_list(ignore)
+  call ag#opts#append('ignore_list', a:ignore)
+  silent call ag#bind#repeat()
+endf
+
+fun! ag#opts#reset_ignore_list()
+  call ag#opts#reset('ignore_list')
+  silent call ag#bind#repeat()
+endf
 
 fun! ag#opts#toggle(cmdline)
   let l:lst = split(a:cmdline)

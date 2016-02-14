@@ -85,7 +85,7 @@ the results in a split window.
     Search vim documentation files for the {pattern}. Behaves just like the
     |:Ag| command, but searches only vim documentation .txt files
 
-:LAgHelp [options] {pattern}                                         *:LAgHelp*
+:LAgHelp [options] {pattern}                                 *:LAgHelp*
 
     Just like |:AgHelp| but instead of the |quickfix| list, matches are placed
     in the current |location-list|.
@@ -197,6 +197,39 @@ Every search issued from shortcuts in normal or visual mode, is added to
 history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
   let g:ag.mappings_to_cmd_history=1
 <
+                                                     *g:ag.ignore_list*
+Every search issued from shortcuts in normal or visual mode, is added to
+history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
+  let g:ag.mappings_to_cmd_history=1
+
+:AgSet {options} {value}                                     *:AgSet*
+
+    Set an ag option
+
+:AgToggle {options}                                          *:AgToggle*
+
+    Toggle an option
+
+:AgShow {options}                                            *:AgShow*
+
+    Show option value
+
+:AgAppend {options} {value}                                  *:AgAppend*
+
+    Add a value to a list option
+
+:AgReset {options} {value}                                   *:AgReset*
+
+    Reset an option
+
+:AgIgnore {options} {value}                                  *:AgIgnore*
+
+    Convenient wrapper around g:ag.ignore_list and launch search again
+
+:AgIgnoreReset {options} {value}                             *:AgIgnoreReset*
+
+    Convenient wrapper to reset g:ag.ignore_list and launch search again
+
 ==============================================================================
 ABBREVIATIONS                                                    *ag-abbrev*
 
