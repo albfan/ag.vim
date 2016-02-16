@@ -75,7 +75,7 @@ if g:ag.use_default.abbreviations
 
   function! s:expabbr(lhs, rhs)
     if getcmdtype() !=# ":" | return a:lhs | endif
-    let l:lhcmd = strpart(getcmdline(), 0, getcmdpos())
+    let l:lhcmd = strpart(getcmdline(), 0, getcmdpos() - 1)
     return (l:lhcmd =~ '^\A*'.a:lhs.'$' ? a:rhs : a:lhs)
   endfunction
 
