@@ -45,6 +45,9 @@ function! ag#bind#exec(...)
   endif
   if empty(_)
     echohl WarningMsg
+    " THINK: costruct more informative message
+    "   -- flags indicators
+    "   -- paths presence placeholder, etc
     echom "No matches for '".join(g:ag.last.args)."'"
     echohl None
   endif
@@ -53,14 +56,15 @@ endfunction
 
 
 function! ag#bind#call(entry)
+  if empty(a:entry.args) | echom "empty pattern" | return | endif
   " FIND: another way -- to execute args list directly without join?
   let l:args = ag#bind#join(a:entry.args + a:entry.paths)
-  call {a:entry.view}(l:args, a:entry.cmd)
+  " TODO: move respectful ag#bind#exec(l:cmdline) here from qf.vim and group.vim
+  call ag#view#{a:entry.view}(l:args, a:entry.cmd)
 endfunction
 
 
 function! ag#bind#repeat()
-  if empty(g:ag.last) | echom "nothing to repeat" | return | endif
   call ag#bind#call(g:ag.last)
 endfunction
 
@@ -90,20 +94,22 @@ endfunction
 
 " NEED:DEV: more sane api -- THINK: how to separate flags, regex, paths?
 function! ag#bind#f(view, args, paths, cmd)
-  let auto = empty(a:args) || type(a:args)!=type([])
-  if auto
-    let l:args = ag#args#auto(a:args)
+  let g:ag.last.view = a:view
+  " DEV: if a:src == 'filelist' -> paths=a:paths else paths=ag#paths#{a:src}() else ''
+  let g:ag.last.paths = a:paths
+
+  if empty(a:args)
+    if exists('g:ag.visual') && g:ag.visual
+      let g:ag.last.args = ag#args#vsel()
+    else
+      let g:ag.last.args = ag#args#cword()
+    endif
   else
-    let l:args = ag#bind#fix_fargs(a:args)
+    let g:ag.last.args = ag#bind#fix_fargs(a:args)
   endif
 
   " REMOVE: temporary args splitter to unify api
-  let l:cmd = (type(a:cmd)==type(0) ? remove(l:args, a:cmd) : a:cmd)
-
-  if empty(l:args) | echom "empty search" | return | endif
-
-  call extend(g:ag.last, {'view': ag#view#auto(a:view), 'args': l:args,
-        \ 'paths': ag#paths#auto(a:paths), 'cmd': l:cmd, 'orig_args': a:args, 'auto': auto})
+  let g:ag.last.cmd = (type(a:cmd)==type(0) ? remove(g:ag.last.args, a:cmd) : a:cmd)
 
   call ag#bind#call(g:ag.last)
 endfunction

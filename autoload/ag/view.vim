@@ -1,13 +1,4 @@
 " Providers of view search results:
-function! ag#view#auto(func)
-  let l:fnm = 'ag#view#' . a:func
-  if !exists('*'.l:fnm)
-    throw "Err: 'autoload/ag/view.vim' has no '".fnm."' view provider."
-  endif
-  return l:fnm
-endfunction
-
-
 function! s:qfcmd(m)
   return (a:m=~#'+' ? 'add' : (g:ag.toggle.open_first ?'': 'get')).'expr'
 endfunction

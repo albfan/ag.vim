@@ -1,15 +1,4 @@
 " Providers of search targets
-function! ag#paths#auto(paths)
-  if !empty(a:paths)
-    if type(a:paths)==type([]) | return a:paths | endif
-    if type(a:paths)==type('') && exists('*ag#paths#'.a:paths)
-      return ag#paths#{a:paths}()
-    endif
-  endif
-  return []
-endfunction
-
-
 function! ag#paths#lwd()
   return [expand('%:p', 1)]
 endfunction

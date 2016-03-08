@@ -1,24 +1,5 @@
 " Providers of search arguments
-function! ag#args#auto(args)
-  " TODO:ADD: -range to commands to use: '<,'>Ag rgx and 11,87Ag rgx
-  if !empty(a:args)
-    " DEV: return args (regex+path...) constructed from multiple providers
-    " if type(a:args)==type([])
-    if type(a:args)==type('') && exists('*ag#args#'.a:args)
-      return ag#args#{a:args}()
-    endif
-  endif
-  " THINK:FIX: this vsel disables using ranges?
-  return ( exists('g:ag.visual') && g:ag.visual
-    \ ? ag#args#vsel('\n') 
-    \ : !empty(expand("<cword>"))
-       \ ? ag#args#cword()
-       \ : exists('g:ag.last.args') 
-           \ ? g:ag.last.args
-           \ : "" )
-endfunction
-
-
+" THINK:FIX: this vsel disables using ranges?
 function! ag#args#vsel(...)
   " DEV:RFC:ADD: 'range' postfix and use a:firstline, etc -- to exec f once?
   let [lnum1, col1] = getpos("'<")[1:2]

@@ -61,7 +61,7 @@ Expect (matches with context):
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(find multiword "let hoge" on fixture directory):
-  AgGroup "let hoge"
+  AgGroup let\ hoge
 
 Then (syntax for multiword "let hoge"):
   AssertEqual 'agSearch', SyntaxAt(2,8)
@@ -73,7 +73,7 @@ Expect (matches for "let hoge"):
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(find multiword "fuga does not contains" on fixture directory):
-  AgGroup "fuga does not contains"
+  AgGroup fuga\ does\ not\ contains
 
 Then (syntax for multiword "fuga does not contains"):
   AssertEqual 'agSearch', SyntaxAt(2,19)

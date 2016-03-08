@@ -1,18 +1,3 @@
-" TODO: replace by direct patt supplying from bind args list
-function! ag#group#get_patt(p)
-  if exists('g:ag.last.auto') && g:ag.last.auto
-    let args = join(g:ag.last.args, " ")
-  else
-    let args = join(g:ag.last.orig_args, " ")
-    let args = args =~# '^"'
-          \ ? split(args, '"')[0]
-          \ : args =~# "^'"
-              \ ? split(args, "'")[0]
-              \ : split(args, '\s\+')[0]
-  endif
-  return args
-endfunction
-
 function! ag#group#search(args, frgx)
   let g:ag.last.filter = a:frgx
   let _ = ag#bind#exec(ag#provider#ag(g:ag.last))
@@ -34,9 +19,8 @@ function! ag#group#search(args, frgx)
   " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance
   " call ag#syntax#set(g:ag.ft)
 
-  let l:pattern = ag#group#get_patt(a:args)
-  let l:ignore_case = (l:pattern !~# '[A-Z]')
-  call ag#syntax#himatch_pcre(l:pattern, l:ignore_case)
+  let l:ignore_case = (g:ag.last.args[0] !~# '[A-Z]')
+  call ag#syntax#himatch_pcre(g:ag.last.args[0], l:ignore_case)
 endfunction
 
 function! ag#group#next()
