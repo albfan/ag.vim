@@ -37,14 +37,13 @@ command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      silent cal
 command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', [<f-args>], [], -1)
 
 
-command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet         call ag#opts#set(<f-args>)
+command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<q-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_toggle AgToggle  call ag#opts#toggle(<q-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgAppend      call ag#opts#append(<f-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgReset       call ag#opts#reset(<f-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgShow        call ag#opts#show(<f-args>)
 command! -bang -nargs=+                                              AgIgnore      call ag#opts#ignore_list(<f-args>)
 command! -bang -nargs=0                                              AgIgnoreReset call ag#opts#reset_ignore_list()
-command! -bang -nargs=+ -complete=customlist,ag#complete#opts_toggle AgToggle      call ag#opts#toggle(<f-args>)
 
 command! -bang -nargs=0 AgNext  call ag#group#next()
 command! -bang -nargs=0 AgPrev  call ag#group#prev()
