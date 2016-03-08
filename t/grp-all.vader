@@ -1,32 +1,46 @@
-
 """ check AgGroup command
+= :AgGroup regex
 
+================================
+Execute (::Hold cwd fixture):
+  cd fixture
+  let g:ag_old = deepcopy(g:ag, 1)
+  let g:isk_def = &isk
+
+Before (Restore default state):
+  %bdelete | only
+  let g:ag = deepcopy(g:ag_old, 1)
+  let &isk = g:isk_def
+
+================================
 Execute(Find "fuga" inside fixture directory):
-  :AgGroup fuga fixture
-
-Then (syntax for search match "fuga"):
-  AssertEqual SyntaxAt(1,1), 'agPath'
-  AssertEqual SyntaxAt(2,1), 'agMatchNum'
-  AssertEqual SyntaxAt(2,14), 'agSearch'
-  AssertEqual SyntaxAt(3,14), 'agSearch'
-  AssertEqual SyntaxAt(4,21), 'agSearch'
-  AssertEqual SyntaxAt(5,21), 'agSearch'
+  AgGroup fuga
 
 Expect (matches on line 3,11,12 and 14):
-  fixture/sample.vim
+  sample.vim
   3:8:   let fuga = 'bazz'
   11:7:   if fuga =~ 'z'
   12:13:      echo "fuga contains z"
   14:13:      echo 'fuga does not contains z'
 
+Then (syntax for search match "fuga"):
+  AssertEqual 'agPath', SyntaxAt(1,1)
+  AssertEqual 'agMatchNum', SyntaxAt(2,1)
+  AssertEqual 'agSearch', SyntaxAt(2,14)
+  AssertEqual 'agSearch', SyntaxAt(3,14)
+  AssertEqual 'agSearch', SyntaxAt(4,21)
+  AssertEqual 'agSearch', SyntaxAt(5,21)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(Find "fuga" with context):
-  :3AgGroup fuga fixture
+  3AgGroup fuga
 
 Then (syntax for context search):
-  AssertEqual SyntaxAt(2,3), 'agContextLine'
+  AssertEqual 'agContextLine', SyntaxAt(2,3)
+  AssertEqual 'agSearch', SyntaxAt(4,12)
 
 Expect (matches with context):
-  fixture/sample.vim
+  sample.vim
   1-function! Foo(bar)
   2-   let hoge = 0
   3:8:   let fuga = 'bazz'
@@ -45,122 +59,121 @@ Expect (matches with context):
   16-
   17-   echo 'argument bar is ' . a:bar
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(find multiword "let hoge" on fixture directory):
-  close
-  AgGroup "let hoge" fixture
+  AgGroup "let hoge"
 
 Then (syntax for multiword "let hoge"):
-  AssertEqual SyntaxAt(2,8), 'agSearch'
-  AssertEqual SyntaxAt(2,15), 'agSearch'
+  AssertEqual 'agSearch', SyntaxAt(2,8)
+  AssertEqual 'agSearch', SyntaxAt(2,15)
 
 Expect (matches for "let hoge"):
-  fixture/sample.vim
+  sample.vim
   2:4:   let hoge = 0
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(find multiword "fuga does not contains" on fixture directory):
-  AgGroup "fuga does not contains" fixture
+  AgGroup "fuga does not contains"
 
 Then (syntax for multiword "fuga does not contains"):
-  AssertEqual SyntaxAt(2,19), 'agSearch'
-  AssertEqual SyntaxAt(2,40), 'agSearch'
+  AssertEqual 'agSearch', SyntaxAt(2,19)
+  AssertEqual 'agSearch', SyntaxAt(2,40)
 
 Expect (matches for "fuga does not contains"):
-  fixture/sample.vim
+  sample.vim
   14:13:      echo 'fuga does not contains z'
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(find word with #):
-  AgGroup "sample#Bar" fixture
+  AgGroup "sample#Bar"
 
 Expect (match on line 20 and 21):
-  fixture/sample.vim
+  sample.vim
   20:10:function sample#Bar(arg)
   21:41:   echo "this is sample function called sample#Bar"
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute(find word with %):
-  AgGroup "%foge" fixture
+  AgGroup "%foge"
 
 Expect (match on line 22 and 41):
-  fixture/sample.vim
+  sample.vim
   22:33:   echo "a line with percentage %foge"
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute (history addition):
   let g:ag.toggle.mappings_to_cmd_history = 1
-  "do a search
-  AgGroup "hoge" fixture
-  "goto line
-  "execute "normal \<Space>"
+  AgGroup "hoge"
   call ag#ctrl#NextFold()
-  "execute "normal \<Enter>"
   call ag#ctrl#OpenFile(0)
-  "move around
-  normal j
-  "search with shortcut
-  execute "normal ".get(g:, "mapleader", "\\")."ag"
-  "expect search to be on history
+  exe "norm j\<Plug>(ag-group)"
+
+Then (expect search to be on history):
   AssertEqual histget(":"), "AgGroup 'fuga'"
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute (find results with escape char and visual selection):
-  edit fixture/sample.vim
-  1
-  " emulate vim filetype iskeyword
-  set isk+=#
-  execute "normal 19jwve".get(g:, "mapleader", "\\")."ag"
+  edit sample.vim
+  1/sample#Bar
+  set isk+=#  " emulate vim filetype iskeyword
+  exe "norm gn\<Plug>(ag-group)"
 
 Then (highlight for visual selection "sample#Bar"):
-  AssertEqual SyntaxAt(2,16), 'agSearch'
-  AssertEqual SyntaxAt(2,25), 'agSearch'
-  AssertEqual SyntaxAt(3,47), 'agSearch'
-  AssertEqual SyntaxAt(3,56), 'agSearch'
+  AssertEqual 'agSearch', SyntaxAt(2,16)
+  AssertEqual 'agSearch', SyntaxAt(2,25)
+  AssertEqual 'agSearch', SyntaxAt(3,47)
+  AssertEqual 'agSearch', SyntaxAt(3,56)
 
 Expect (results for visual selection):
-  fixture/sample.vim
+  sample.vim
   20:10:function sample#Bar(arg)
   21:41:   echo "this is sample function called sample#Bar"
 
-Execute:
-  close
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute (visual search multiword):
-  edit fixture/sample.vim
-  " visual select 'hoge is'
-  1
-  execute "normal 5j3wv2e".get(g:, "mapleader", "\\")."ag"
+  edit sample.vim
+  1/hoge is
+  exe "norm gn\<Plug>(ag-group)"
 
 Then (highlight for multiword "hoge is"):
-  AssertEqual SyntaxAt(2,18), 'agSearch'
-  AssertEqual SyntaxAt(3,18), 'agSearch'
-  AssertEqual SyntaxAt(2,24), 'agSearch'
-  AssertEqual SyntaxAt(3,24), 'agSearch'
+  AssertEqual 'agSearch', SyntaxAt(2,18)
+  AssertEqual 'agSearch', SyntaxAt(3,18)
+  AssertEqual 'agSearch', SyntaxAt(2,24)
+  AssertEqual 'agSearch', SyntaxAt(3,24)
 
 Expect (two matches on line 6 and 8):
-  fixture/sample.vim
+  sample.vim
   6:13:      echo "hoge is 0"
   8:13:      echo "hoge is not 0"
 
-Execute:
-  close
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute (don't open search buffer if no results):
-  edit fixture/sample.vim
-  AgGroup nomatch fixture
-  AssertEqual 'fixture/sample.vim', bufname('%')
-  close
+  edit sample.vim
+  AgGroup nomatch
 
+Then (last bufname):
+  AssertEqual 'sample.vim', bufname('%')
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Execute (find results with escape char and cword):
-  edit fixture/sample.vim
-  1
-  " emulate vim filetype iskeyword
-  set isk+=#
-  execute "normal 19jw".get(g:, "mapleader", "\\")."ag"
+  edit sample.vim
+  1/sample#Bar
+  set isk+=#  " emulate vim filetype iskeyword
+  exe "norm gn\<Plug>(ag-group)"
 
 Then (highlight for cword "sample#Bar"):
-  AssertEqual SyntaxAt(2,16), 'agSearch'
-  AssertEqual SyntaxAt(2,25), 'agSearch'
-  AssertEqual SyntaxAt(3,47), 'agSearch'
-  AssertEqual SyntaxAt(3,56), 'agSearch'
+  AssertEqual 'agSearch', SyntaxAt(2,16)
+  AssertEqual 'agSearch', SyntaxAt(2,25)
+  AssertEqual 'agSearch', SyntaxAt(3,47)
+  AssertEqual 'agSearch', SyntaxAt(3,56)
 
 Expect (results for cword):
-  fixture/sample.vim
+  sample.vim
   20:10:function sample#Bar(arg)
   21:41:   echo "this is sample function called sample#Bar"
 
+================================
+Before:
+After:
+Execute (::Release fixture):
+  cd ..
