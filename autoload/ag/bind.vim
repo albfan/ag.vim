@@ -100,10 +100,11 @@ function! ag#bind#f(view, args, paths, cmd)
 
   if empty(a:args)
     if exists('g:ag.visual') && g:ag.visual
-      let g:ag.last.args = ag#args#vsel()
+      call ag#args#vsel(g:ag.last)
     else
-      let g:ag.last.args = ag#args#cword()
+      call ag#args#cword(g:ag.last)
     endif
+    let g:ag.last.args = [g:ag.last.pattern]
   else
     let g:ag.last.args = ag#bind#fix_fargs(a:args)
   endif
