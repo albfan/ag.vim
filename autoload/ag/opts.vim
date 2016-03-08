@@ -46,16 +46,16 @@ let s:ag.toggle.syntax_in_context = 1  " Embeds syntax in context area (also)
 
 " NOTE: resets search entry to default state with defined fields
 " EXPL: used to eliminate 'exists(...)' checks spread throughout the code
-function! ag#opts#init_last(gstate)
-  let a:gstate.last = {}
-  let state = a:gstate.last
-  let state.view = 'qf'
-  let state.pattern = ''
-  let state.filter = ''
-  let state.count = 0
+function! ag#opts#init_entry()
+  let e = {}
+  let e.view = 'qf'
+  let e.pattern = ''
+  let e.filter = ''
+  let e.count = 0
   " Toggle
-  let state.word = 0
-  let state.literal = 0
+  let e.word = 0
+  let e.literal = 0
+  return e
 endfunction
 
 
@@ -65,7 +65,7 @@ function! ag#opts#init()
   else
     let g:ag = s:ag
   endif
-  call ag#opts#init_last(g:ag)
+  let g:ag.last = ag#opts#init_entry()
   if !executable(g:ag.bin)
     throw "Binary '".g:ag.bin."' was not found in your $PATH. "
         \."Check if the_silver_searcher is installed and available."

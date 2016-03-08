@@ -48,19 +48,19 @@ function! ag#bind#exec(...)
     " THINK: costruct more informative message
     "   -- flags indicators
     "   -- paths presence placeholder, etc
-    echom "No matches for '".join(g:ag.last.args)."'"
+    echom "No matches for: ".join(g:ag.last.args)
     echohl None
   endif
   return _
 endfunction
 
 
-function! ag#bind#call(entry)
-  if empty(a:entry.args) | echom "empty pattern" | return | endif
+function! ag#bind#call(e)
+  if empty(a:e.args) | echom "empty pattern" | return | endif
   " FIND: another way -- to execute args list directly without join?
-  let l:args = ag#bind#join(a:entry.args + a:entry.paths)
+  let l:args = ag#bind#join(a:e.args + a:e.paths)
   " TODO: move respectful ag#bind#exec(l:cmdline) here from qf.vim and group.vim
-  call ag#view#{a:entry.view}(l:args, a:entry.cmd)
+  call ag#view#{a:e.view}(l:args, a:e.cmd)
 endfunction
 
 
@@ -94,25 +94,26 @@ endfunction
 
 " NEED:DEV: more sane api -- THINK: how to separate flags, regex, paths?
 function! ag#bind#f(view, args, paths, cmd)
-  let g:ag.last.view = a:view
+  let e = g:ag.last
+  let e.view = a:view
   " DEV: if a:src == 'filelist' -> paths=a:paths else paths=ag#paths#{a:src}() else ''
-  let g:ag.last.paths = a:paths
+  let e.paths = a:paths
 
   if empty(a:args)
     if exists('g:ag.visual') && g:ag.visual
-      call ag#args#vsel(g:ag.last)
+      call ag#args#vsel(e)
     else
-      call ag#args#cword(g:ag.last)
+      call ag#args#cword(e)
     endif
-    let g:ag.last.args = [g:ag.last.pattern]
+    let e.args = [e.pattern]
   else
-    let g:ag.last.args = ag#bind#fix_fargs(a:args)
+    let e.args = ag#bind#fix_fargs(a:args)
   endif
 
   " REMOVE: temporary args splitter to unify api
-  let g:ag.last.cmd = (type(a:cmd)==type(0) ? remove(g:ag.last.args, a:cmd) : a:cmd)
+  let e.cmd = (type(a:cmd)==type(0) ? remove(e.args, a:cmd) : a:cmd)
 
-  call ag#bind#call(g:ag.last)
+  call ag#bind#call(e)
 endfunction
 
 function! ag#bind#f_tracked(cmd, visual, count, ...)
