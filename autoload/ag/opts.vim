@@ -14,8 +14,8 @@ let s:ag.default.grp = ['--column', '--group', '--heading']
 " NOTE: for now use global case option, then move into .last if convenient
 let s:ag.ignore = 'tags'
 let s:ag.toggle.literal_vsel = 1
-let s:ag.toggle.ignore_case = 0
-let s:ag.toggle.smart_case = 1
+let s:ag.toggle.case_ignore = 0
+let s:ag.toggle.case_smart = 1
 
 " Settings
 let s:ag.qhandler = "botright copen"
@@ -42,6 +42,7 @@ let s:ag.toggle.foldpath  = 1          " Include group path
 let s:ag.toggle.foldempty = 1          " Include trailing empty line
 let s:ag.toggle.folddelim = 0          " Include context delimiter '--'
 let s:ag.toggle.syntax_in_context = 1  " Embeds syntax in context area (also)
+let s:ag.toggle.view_highlight = 1     " Highlight regex in view buffer
 
 
 " NOTE: resets search entry to default state with defined fields

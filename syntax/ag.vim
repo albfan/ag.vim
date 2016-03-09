@@ -66,6 +66,11 @@ else
     \ start='^.' excludenl end='$' skipnl nextgroup=agGroupBlock
 endif
 
+" NOTE: highlight matches each time when re-applying syntax
+if g:ag.toggle.view_highlight
+  call ag#syntax#himatch_pcre(g:ag.last.pattern)
+endif
+
 
 """ Sync syntax highlight by nearest agGroupBlock (improved performance)
 " ATTENTION: placed at the very end, after 'grouphere' value is defined

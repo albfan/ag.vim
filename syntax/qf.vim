@@ -23,6 +23,11 @@ syn match agPath      display           nextgroup=agDelimiter excludenl '^[^|]*'
 syn match agDelimiter display contained nextgroup=agMatchNum  excludenl '|'
 syn match agMatchNum  display contained nextgroup=agMatchLine excludenl '[^|]*'
 
+" NOTE: highlight matches each time when re-applying syntax
+if g:ag.toggle.view_highlight
+  call ag#syntax#himatch_pcre(g:ag.last.pattern)
+endif
+
 
 """ No need to sync syntax at all (until block folding implemented)
 syntax sync clear

@@ -1,13 +1,9 @@
 function! ag#provider#ag(e)
   let argv = [g:ag.bin]
   " Match case
-  if g:ag.toggle.ignore_case
-    let argv += ['-i']
-  elseif g:ag.toggle.smart_case
-    let argv += ['-S']
-  else
-    let argv += ['-s']
-  endif
+  let t = g:ag.toggle
+  let argv += [ t.case_ignore ? '-i' : t.case_smart ? '-S' : '-s']
+
   " File ignore patterns
   if !empty(g:ag.ignore)
     let argv += ['--ignore', g:ag.ignore]

@@ -4,7 +4,8 @@
 "   -- au Syntax <buffer> call ag#syntax#set(<amatch>)' -- when <afile>==ag
 function! ag#syntax#init_buffer()
   exe "comm! -buffer -nargs=? ".(v:version<703 ?'': '-complete=filetype')."
-      \ AgFt  call ag#syntax#set(<q-args>)"
+      \ AgFt  call ag#syntax#set(<q-args>)
+      \| call ag#syntax#himatch_pcre(g:ag.last.pattern)"
 endfunction
 
 " Change embedded syntax / update after changing any of b:ag._ options
@@ -39,9 +40,11 @@ function! ag#syntax#himatch(patt)
 endfunction
 
 
-" TODO:DEV: replace try-catch by ag#bind#pcre2vim()
-function! ag#syntax#himatch_pcre(patt, ...)  " a:1 -- ignorecase=1
-  let _ = (get(a:, 1, 1) ? '\c' : '') . escape(a:patt, '/')
+" TODO:DEV: replace case derivation and try-catch by ag#bind#pcre2vim()
+function! ag#syntax#himatch_pcre(patt)
+  let t = g:ag.toggle
+  let _ = (t.case_ignore || (t.case_smart && a:patt !~# '[A-Z]')
+        \ ? '\c' : '\C') . escape(a:patt, '/')
   try|try
     call ag#syntax#himatch('/\v'._.'/')
   catch /^Vim\%((\a\+)\)\=:E54/ " invalid regexp
