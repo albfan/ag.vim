@@ -1,6 +1,5 @@
 """ check Ag escaping of vim and shell specific symbols
 = :Ag regex
-= ...
 
 ================================
 Execute (::Hold cwd fixture):
@@ -15,12 +14,6 @@ Execute (Multiple ag#bind#escape):
   AssertEqual ag#bind#escape('raw multi'), '''raw multi'''
   AssertEqual ag#bind#escape('"quoted multi"'), '"quoted multi"'
   AssertEqual ag#bind#escape("'squoted multi'"), "'squoted multi'"
-
-Execute (List ag#bind#fix_fargs):
-  AssertEqual ag#bind#fix_fargs(['singleword']), ['singleword']
-  AssertEqual ag#bind#fix_fargs(['raw', 'multi']), ['raw', 'multi']
-  AssertEqual ag#bind#fix_fargs(['"quoted', 'multi"']), ['"quoted multi"']
-  AssertEqual ag#bind#fix_fargs(["'squoted", "multi'"]), ["'squoted multi'"]
 
 ========= Vim-Special ==========
 Execute (Vim # raw):

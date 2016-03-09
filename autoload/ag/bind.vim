@@ -48,7 +48,7 @@ function! ag#bind#exec(...)
     " THINK: costruct more informative message
     "   -- flags indicators
     "   -- paths presence placeholder, etc
-    echom "No matches for: ".join(g:ag.last.args)
+    echom "No matches for: ".g:ag.last.pattern
     echohl None
   endif
   return _
@@ -56,9 +56,9 @@ endfunction
 
 
 function! ag#bind#call(e)
-  if empty(a:e.args) | echom "empty pattern" | return | endif
+  if empty(a:e.pattern) | echom "empty pattern" | return | endif
   " FIND: another way -- to execute args list directly without join?
-  let l:args = ag#bind#join(a:e.args + a:e.paths)
+  let l:args = ag#bind#join([a:e.pattern] + a:e.paths)
   " TODO: move respectful ag#bind#exec(l:cmdline) here from qf.vim and group.vim
   call ag#view#{a:e.view}(l:args, a:e.cmd)
 endfunction
@@ -69,58 +69,39 @@ function! ag#bind#repeat()
 endfunction
 
 
-function! ag#bind#fix_fargs(args)
-  if len(a:args) < 2 | return a:args | endif
-  let a = a:args
-  let lena = len(a)
-  let i = 0
-  while i < lena
-    let j = 1
-    while j < lena - i
-      if (a[i] =~# '^".*[^"]$' && a[i+j] =~# '^[^"].*"$')
-        \||(a[i] =~# "^'.*[^']$" && a[i+j] =~# "^[^'].*'$")
-        for k in range(1, j)
-          let a[i] .= ' '.remove(a, i+1)
-        endfor
-        let lena-=j
-      endif
-      let j += 1
-    endwhile
-    let i += 1
-  endwhile
-  return a
-endfunction
-
-
 " NEED:DEV: more sane api -- THINK: how to separate flags, regex, paths?
-function! ag#bind#f(view, args, paths, cmd)
+function! ag#bind#f(view, patt, paths, cmd)
   let e = g:ag.last
   let e.view = a:view
   " DEV: if a:src == 'filelist' -> paths=a:paths else paths=ag#paths#{a:src}() else ''
   let e.paths = a:paths
+  let e.cmd = a:cmd
 
-  if empty(a:args)
-    if exists('g:ag.visual') && g:ag.visual
+  if type(a:patt) == type(0)
+    if a:patt == 0
+      " Do nothing. Keep old pattern intact.
+    elseif a:patt == 1
+      call ag#args#slash(e)
+    endif
+  elseif type(a:patt) == type("")
+    if !empty(a:patt)
+      let e.pattern = a:patt
+    elseif exists('g:ag.visual') && g:ag.visual
       call ag#args#vsel(e)
     else
       call ag#args#cword(e)
     endif
-    let e.args = [e.pattern]
-  else
-    let e.args = ag#bind#fix_fargs(a:args)
   endif
-
-  " REMOVE: temporary args splitter to unify api
-  let e.cmd = (type(a:cmd)==type(0) ? remove(e.args, a:cmd) : a:cmd)
 
   call ag#bind#call(e)
 endfunction
 
 function! ag#bind#f_tracked(cmd, visual, count, ...)
-  let g:ag.visual = a:visual
+  let g:ag.visual = a:visual  " RFC:REMOVE
   let g:ag.last.count = a:count
   call call('ag#bind#f', a:000)
   if g:ag.toggle.mappings_to_cmd_history
-     call histadd(":", a:cmd.' '.ag#bind#join(g:ag.last.args + g:ag.last.paths))
+    " TODO:DEV: more correct vim cmdline generator 'ag#bind#get_cmd(e)'
+    call histadd(":", a:cmd.' '.ag#bind#join([g:ag.last.pattern] + g:ag.last.paths))
   endif
 endfunction

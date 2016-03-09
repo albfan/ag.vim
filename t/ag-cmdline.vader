@@ -1,8 +1,5 @@
 """ check Ag user-specified cmdline in cwd
 = :Ag regex
-= :Ag regex [<path>..]
-= :Ag [<options>..] regex
-= :Ag [<options>..] regex [<path>..]
 
 ================================
 Execute (::Hold cwd fixture):

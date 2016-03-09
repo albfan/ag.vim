@@ -19,8 +19,8 @@ function! ag#group#search(args, frgx)
   " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance
   " call ag#syntax#set(g:ag.ft)
 
-  let l:ignore_case = (g:ag.last.args[0] !~# '[A-Z]')
-  call ag#syntax#himatch_pcre(g:ag.last.args[0], l:ignore_case)
+  let l:ignore_case = (g:ag.last.pattern !~# '[A-Z]')
+  call ag#syntax#himatch_pcre(g:ag.last.pattern, l:ignore_case)
 endfunction
 
 function! ag#group#next()

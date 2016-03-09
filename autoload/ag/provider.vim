@@ -35,6 +35,7 @@ function! ag#provider#ag(e)
   endif
 
   " Pattern and paths to search
-  let argv += a:e.args + a:e.paths
+  " TODO: allow e.pattern to be both string or array
+  let argv += [a:e.pattern] + a:e.paths
   return ag#bind#join(argv)
 endfunction

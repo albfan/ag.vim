@@ -19,22 +19,22 @@ fun! s:fc(...)
 endfun
 
 " NOTE: You must, of course, install ag / the_silver_searcher
-command! -bang -range -nargs=* -complete=customlist,s:fc Ag           call ag#bind#f('qf', [<f-args>], [], '<bang>')
-command! -bang -range -nargs=* -complete=customlist,s:fc AgAdd        call ag#bind#f('qf', [<f-args>], [], '<bang>+')
-command! -bang -range -nargs=* -complete=customlist,s:fc AgBuffer     call ag#bind#f('qf', [<f-args>], 'buffers', '<bang>')
-command! -bang -range -nargs=* -complete=customlist,s:fc AgFromSearch call ag#bind#f('qf', 'slash', [<f-args>], '<bang>')
-command! -bang -range -nargs=* -complete=customlist,s:fc AgFile       call ag#bind#f('qf', ['-g', <f-args>], [], '<bang>')
-command! -bang -range -nargs=* -complete=help            AgHelp       call ag#bind#f('qf', [<f-args>], 'help', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc Ag           call ag#bind#f('qf', <q-args>, [], '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgAdd        call ag#bind#f('qf', <q-args>, [], '<bang>+')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgBuffer     call ag#bind#f('qf', <q-args>, 'buffers', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc AgFromSearch call ag#bind#f('qf', 1, '<bang>')
+" command! -bang -range -nargs=* -complete=customlist,s:fc AgFile       call ag#bind#f('qf', ['-g', <f-args>], [], '<bang>')
+command! -bang -range -nargs=* -complete=help            AgHelp       call ag#bind#f('qf', <q-args>, 'help', '<bang>')
 
-command! -bang -range -nargs=* -complete=customlist,s:fc LAg          call ag#bind#f('loc', [<f-args>], [], '<bang>')
-command! -bang -range -nargs=* -complete=customlist,s:fc LAgAdd       call ag#bind#f('loc', [<f-args>], [], '<bang>+')
-command! -bang -range -nargs=* -complete=customlist,s:fc LAgBuffer    call ag#bind#f('loc', [<f-args>], 'buffers', '<bang>')
-command! -bang -range -nargs=* -complete=customlist,s:fc LAgFile      call ag#bind#f('loc', ['-g', <f-args>], [], '<bang>')
-command! -bang -range -nargs=* -complete=help            LAgHelp      call ag#bind#f('loc', [<f-args>], 'help', '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAg          call ag#bind#f('loc', <q-args>, [], '<bang>')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAgAdd       call ag#bind#f('loc', <q-args>, [], '<bang>+')
+command! -bang -range -nargs=* -complete=customlist,s:fc LAgBuffer    call ag#bind#f('loc', <q-args>, 'buffers', '<bang>')
+" command! -bang -range -nargs=* -complete=customlist,s:fc LAgFile      call ag#bind#f('loc', ['-g', <f-args>], [], '<bang>')
+command! -bang -range -nargs=* -complete=help            LAgHelp      call ag#bind#f('loc', <q-args>, 'help', '<bang>')
 
 command! -bang -count                                    AgRepeat     silent call ag#bind#repeat()
-command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      silent call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', [<f-args>], [], '')
-command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', [<f-args>], [], -1)
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      silent call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', <q-args>, [], '')
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', 0, [], <q-args>)
 
 
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<q-args>)
@@ -86,22 +86,22 @@ if g:ag.use_default.abbreviations
 endif
 
 
-noremap <silent> <Plug>(ag-qf)           :<C-u>call ag#bind#f('qf', [], [], '')<CR>
-noremap <silent> <Plug>(ag-qf-add)       :<C-u>call ag#bind#f('qf', [], [], '+')<CR>
-noremap <silent> <Plug>(ag-qf-buffer)    :<C-u>call ag#bind#f('qf', [], 'buffers', '')<CR>
-noremap <silent> <Plug>(ag-qf-searched)  :<C-u>call ag#bind#f('qf', 'slash', [], '')<CR>
-noremap <silent> <Plug>(ag-qf-file)      :<C-u>call ag#bind#f('qf', ['-g'], [], '')<CR>
-noremap <silent> <Plug>(ag-qf-help)      :<C-u>call ag#bind#f('qf', [], 'help', '')<CR>
+noremap <silent> <Plug>(ag-qf)           :<C-u>call ag#bind#f('qf', '', [], '')<CR>
+noremap <silent> <Plug>(ag-qf-add)       :<C-u>call ag#bind#f('qf', '', [], '+')<CR>
+noremap <silent> <Plug>(ag-qf-buffer)    :<C-u>call ag#bind#f('qf', '', 'buffers', '')<CR>
+noremap <silent> <Plug>(ag-qf-searched)  :<C-u>call ag#bind#f('qf', 1, [], '')<CR>
+" noremap <silent> <Plug>(ag-qf-file)      :<C-u>call ag#bind#f('qf', ['-g'], [], '')<CR>
+noremap <silent> <Plug>(ag-qf-help)      :<C-u>call ag#bind#f('qf', '', 'help', '')<CR>
 
-noremap <silent> <Plug>(ag-loc)          :<C-u>call ag#bind#f('loc', [], [], '')<CR>
-noremap <silent> <Plug>(ag-loc-add)      :<C-u>call ag#bind#f('loc', [], [], '+')<CR>
-noremap <silent> <Plug>(ag-loc-buffer)   :<C-u>call ag#bind#f('loc', [], 'buffers', '')<CR>
-noremap <silent> <Plug>(ag-loc-file)     :<C-u>call ag#bind#f('loc', ['-g'], [], '')<CR>
-noremap <silent> <Plug>(ag-loc-help)     :<C-u>call ag#bind#f('loc', [], 'help', '')<CR>
+noremap <silent> <Plug>(ag-loc)          :<C-u>call ag#bind#f('loc', '', [], '')<CR>
+noremap <silent> <Plug>(ag-loc-add)      :<C-u>call ag#bind#f('loc', '', [], '+')<CR>
+noremap <silent> <Plug>(ag-loc-buffer)   :<C-u>call ag#bind#f('loc', '', 'buffers', '')<CR>
+" noremap <silent> <Plug>(ag-loc-file)     :<C-u>call ag#bind#f('loc', ['-g'], [], '')<CR>
+noremap <silent> <Plug>(ag-loc-help)     :<C-u>call ag#bind#f('loc', '', 'help', '')<CR>
 
 nnoremap <silent> <Plug>(ag-repeat) :<C-u>call ag#bind#repeat()<CR>
-nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 1, 'grp', [], [], '')<CR>
-xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 1, 'grp', [], [], '')<CR>
+nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 1, 'grp', '', [], '')<CR>
+xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 1, 'grp', '', [], '')<CR>
 
 nnoremap <silent> <Leader>gg :AgNext<CR>
 nnoremap <silent> <Leader>pp :AgPrev<CR>

@@ -1,10 +1,16 @@
 """ check Ag search in specified paths
-= :Ag regex path..
-= :Ag [<options>..] regex path..
+= :AgSet last.paths ['...' ..]
 
 ================================
+Execute (::Hold cwd fixture):
+  let g:ag_old = deepcopy(g:ag, 1)
+
+Before (Restore default options):
+  let g:ag = deepcopy(g:ag_old, 1)
+================================
 Execute(Match in subdir):
-  Ag word fixture
+  AgSet last.paths ['fixture']
+  Ag word
 
 Expect (1 path, 4 matches):
   fixture/partial|1 col 2| "word a"

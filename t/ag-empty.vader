@@ -1,7 +1,5 @@
 """ check Ag pre-defined options, no regex
 = :Ag
-= :Ag options..
-= :Ag options.. '' [<path>..]
 
 ================================
 Execute (::Hold cwd fixture):
