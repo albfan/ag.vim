@@ -1,8 +1,5 @@
-function! ag#group#search(args, frgx)
-  let g:ag.last.filter = a:frgx
-  let _ = ag#bind#exec(ag#provider#ag(g:ag.last))
-  if empty(_) | return | endif
-
+function! ag#group#search(lst, cmd)
+  " DEV: use a:cmd to regulate 'add/new'
   silent! wincmd P
   if !&previewwindow
     exe g:ag.nhandler
@@ -12,7 +9,7 @@ function! ag#group#search(args, frgx)
   setlocal modifiable
   execute "silent %delete_"
   setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nowrap
-  put = _ | 1delete _
+  put = a:lst | 1delete _
   setlocal nomodifiable
 
   setfiletype ag

@@ -1,8 +1,11 @@
-function! ag#qf#search(args, cmd)
-  let _ = ag#bind#exec(ag#provider#ag(g:ag.last))
-  if empty(_) | return | endif
-
-  call ag#qf#populate(a:cmd, _)
+function! ag#qf#search(lst, cmd)
+  let l:efm_old = &efm
+  try
+    set errorformat=%f:%l:%c:%m,%f
+    silent exec a:cmd . ' a:lst'
+  finally
+    let &efm=l:efm_old
+  endtry
 
   if a:cmd =~# '^l'
     exe g:ag.lhandler
@@ -20,7 +23,8 @@ function! ag#qf#search(args, cmd)
   " XXX: truly bad way of highlighting. TODO:USE: :keephist let @/=...
   " If highlighting is on, highlight the search keyword.
   if g:ag.toggle.highlight
-    let @/ = matchstr(a:args, "\\v(-)\@<!(\<)\@<=\\w+|['\"]\\zs.{-}\\ze['\"]")
+    " FIXME: broken, replace by pcre2vim
+    let @/ = matchstr(g:ag.last.pattern, "\\v(-)\@<!(\<)\@<=\\w+|['\"]\\zs.{-}\\ze['\"]")
     call feedkeys(":let &hlsearch=1 \| echo \<CR>", 'n')
   end
 
@@ -29,15 +33,4 @@ function! ag#qf#search(args, cmd)
   if b:ag_apply_mappings && g:ag.toggle.mapping_message
     echom "ag.vim keys: q=quit <cr>/e/t/h/v=enter/edit/tab/split/vsplit go/T/H/gv=preview versions of same"
   endif
-endfunction
-
-
-function! ag#qf#populate(cmd, lst)
-  let l:efm_old = &efm
-  try
-    set errorformat=%f:%l:%c:%m,%f
-    silent exec a:cmd . ' a:lst'
-  finally
-    let &efm=l:efm_old
-  endtry
 endfunction

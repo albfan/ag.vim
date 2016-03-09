@@ -4,16 +4,16 @@ function! s:qfcmd(m)
 endfunction
 
 
-function! ag#view#qf(args, m)
-  call ag#qf#search(a:args, 'c'.s:qfcmd(a:m))
+function! ag#view#qf(lst, m)
+  call ag#qf#search(a:lst, 'c'.s:qfcmd(a:m))
 endfunction
 
 
-function! ag#view#loc(args, m)
-  call ag#qf#search(a:args, 'l'.s:qfcmd(a:m))
+function! ag#view#loc(lst, m)
+  call ag#qf#search(a:lst, 'l'.s:qfcmd(a:m))
 endfunction
 
 
-function! ag#view#grp(args, cmd)
-  call ag#group#search(a:args, a:cmd)
+function! ag#view#grp(lst, m)
+  call ag#group#search(a:lst, a:m)
 endfunction
