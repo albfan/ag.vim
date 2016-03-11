@@ -45,8 +45,8 @@ command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgShow     
 command! -bang -nargs=+                                              AgIgnore      call ag#opts#ignore_list(<f-args>)
 command! -bang -nargs=0                                              AgIgnoreReset call ag#opts#reset_ignore_list()
 
-command! -bang -nargs=0 AgNext  call ag#group#next()
-command! -bang -nargs=0 AgPrev  call ag#group#prev()
+command! -bang -nargs=0 AgNext  call ag#ctrl#next()
+command! -bang -nargs=0 AgPrev  call ag#ctrl#prev()
 
 
 if g:ag.use_default.abbreviations

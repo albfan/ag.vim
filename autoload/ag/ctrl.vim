@@ -39,7 +39,7 @@ function! ag#ctrl#GotoFold(next)
   endif
 
   if foldclosed(".") != -1
-    normal zv 
+    normal zv
     return
   endif
   let save_a_mark = getpos("'a")
@@ -219,4 +219,20 @@ function! ag#ctrl#BackwardSkipConceal(count)
   endwhile
   "exec "normal ".mvcnt."h"
   return ":\<C-u>\e".mvcnt."h"
+endfunction
+
+function! ag#ctrl#next()
+  silent! wincmd P
+  if &previewwindow
+    call ag#ctrl#NextFold()
+    call ag#ctrl#OpenFile(0)
+  endif
+endfunction
+
+function! ag#ctrl#prev()
+  silent! wincmd P
+  if &previewwindow
+    call ag#ctrl#PrevFold()
+    call ag#ctrl#OpenFile(0)
+  endif
 endfunction

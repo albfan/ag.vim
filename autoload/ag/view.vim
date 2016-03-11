@@ -1,19 +1,15 @@
-" Providers of view search results:
-function! s:qfcmd(m)
-  return (a:m=~#'+' ? 'add' : (g:ag.toggle.open_first ?'': 'get')).'expr'
-endfunction
-
+""" Closures to view results (can contain additional option tweaks)
 
 function! ag#view#qf(lst, m)
-  call ag#qf#search(a:lst, 'c'.s:qfcmd(a:m))
+  call ag#populate#qf(a:lst, 'c', a:m)
 endfunction
 
 
 function! ag#view#loc(lst, m)
-  call ag#qf#search(a:lst, 'l'.s:qfcmd(a:m))
+  call ag#populate#qf(a:lst, 'l', a:m)
 endfunction
 
 
 function! ag#view#grp(lst, m)
-  call ag#group#search(a:lst, a:m)
+  call ag#populate#grp(a:lst, 'preview', a:m)
 endfunction
