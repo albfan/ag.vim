@@ -18,7 +18,7 @@ let s:ag.toggle.case_ignore = 0
 let s:ag.toggle.case_smart = 1
 
 " Settings
-let s:ag.qhandler = "botright copen"
+let s:ag.chandler = "botright copen"
 let s:ag.lhandler = "botright lopen"
 let s:ag.nhandler = "botright new"
 let s:ag.working_path_mode = 'c'
@@ -31,7 +31,7 @@ let s:ag.ignore_list = []
 " Mappings
 let s:ag.use_default = {}
 let s:ag.use_default.mappings = 1
-let s:ag.use_default.qmappings = 1
+let s:ag.use_default.cmappings = 1
 let s:ag.use_default.lmappings = 1
 let s:ag.use_default.abbreviations = 1
 let s:ag.toggle.mapping_message = 1
@@ -74,8 +74,8 @@ function! ag#opts#init()
 endfunction
 
 
-fun! ag#opts#merge(dst, aug)
-  call extend(a:dst, a:aug, 'keep')
+fun! ag#opts#merge(dst, aug, ...)
+  call extend(a:dst, a:aug, get(a:, 1, 'keep'))
   for k in keys(a:aug) | if type(a:aug[k]) == type({})
     if type(a:dst[k]) != type({})
       throw "Wrong type '".type(a:dst[k])."' for '".k."' option."

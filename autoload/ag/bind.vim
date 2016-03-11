@@ -46,10 +46,11 @@ function! ag#bind#exec(...)
 endfunction
 
 
-function! ag#bind#call(e)
+function! ag#bind#do(e)
   if empty(a:e.pattern) | echom "empty pattern" | return | endif
+  " DEV: clone current 'e' and move it to history (circle buffer)
+
   " FIND: another way -- to execute args list directly without join?
-  let l:args = ag#bind#join([a:e.pattern] + a:e.paths)
   let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
   if empty(lst)
     echohl WarningMsg
@@ -60,26 +61,35 @@ function! ag#bind#call(e)
     echohl None
     return
   endif
-  call ag#view#{a:e.view}(lst, get(a:e, 'cmd', ''))
+  call ag#view#{a:e.view}(lst, get(a:e, 'mode', ''))
+
+  " XXX: truly bad way of highlighting. TODO:USE: :keephist let @/=...
+  " If highlighting is on, highlight the search keyword.
+  if g:ag.toggle.highlight
+    " FIXME: broken derivation, replace by pcre2vim
+    let @/ = matchstr(g:ag.last.pattern, "\\v(-)\@<!(\<)\@<=\\w+|['\"]\\zs.{-}\\ze['\"]")
+    call feedkeys(":let &hlsearch=1 \| echo \<CR>", 'n')
+    redraw!
+  end
 endfunction
 
 
 function! ag#bind#repeat()
-  call ag#bind#call(g:ag.last)
+  call ag#bind#do(g:ag.last)
 endfunction
 
 
 " NEED:DEV: more sane api -- THINK: how to separate flags, regex, paths?
-function! ag#bind#f(view, patt, paths, cmd)
+function! ag#bind#f(view, patt, paths, mode)
   let e = g:ag.last
   let e.view = a:view
   " DEV: if a:src == 'filelist' -> paths=a:paths else paths=ag#paths#{a:src}() else ''
   let e.paths = a:paths
 
   if e.view == 'grp'
-    let e.filter = a:cmd
+    let e.filter = a:mode
   else
-    let e.cmd = a:cmd
+    let e.mode = a:mode
   endif
 
   if type(a:patt) == type(0)
@@ -98,7 +108,7 @@ function! ag#bind#f(view, patt, paths, cmd)
     endif
   endif
 
-  call ag#bind#call(e)
+  call ag#bind#do(e)
 endfunction
 
 function! ag#bind#f_tracked(cmd, visual, count, ...)
