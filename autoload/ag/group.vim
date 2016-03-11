@@ -12,7 +12,7 @@ function! ag#group#search(lst, cmd)
   put = a:lst | 1delete _
   setlocal nomodifiable
 
-  setfiletype ag
+  setfiletype ag_grp
   " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance
   " call ag#syntax#set(g:ag.ft)
 endfunction

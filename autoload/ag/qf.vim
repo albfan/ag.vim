@@ -18,7 +18,7 @@ function! ag#qf#search(lst, cmd)
   endif
 
   let b:ag = get(b:, 'ag', {})
-  setfiletype qf
+  setfiletype ag_qf
 
   if b:ag_apply_mappings && g:ag.toggle.mapping_message
     echom "ag.vim keys: q=quit <cr>/e/t/h/v=enter/edit/tab/split/vsplit go/T/H/gv=preview versions of same"
