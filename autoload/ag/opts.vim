@@ -1,15 +1,6 @@
 let s:ag = {}
 let s:ag.toggle = {}
 
-" Inner fields
-let s:ag.bin = 'ag'
-let s:ag.ver = get(split(system(s:ag.bin.' --version'), '\_s'), 2, '')
-" --vimgrep (consistent output we can parse) is available from ag v0.25.0+
-let s:ag.default = {}
-let s:ag.default.qf = (s:ag.ver !~# '\v0\.%(\d|1\d|2[0-4])%(\.\d+|$)' ?
-      \ ['--vimgrep'] : ['--column', '--nogroup', '--noheading'])
-let s:ag.default.grp = ['--column', '--group', '--heading']
-
 " Cmdline
 " NOTE: for now use global case option, then move into .last if convenient
 let s:ag.ignore = 'tags'
@@ -67,10 +58,6 @@ function! ag#opts#init()
     let g:ag = s:ag
   endif
   let g:ag.last = ag#opts#init_entry()
-  if !executable(g:ag.bin)
-    throw "Binary '".g:ag.bin."' was not found in your $PATH. "
-        \."Check if the_silver_searcher is installed and available."
-  endif
 endfunction
 
 

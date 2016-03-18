@@ -52,12 +52,13 @@ function! ag#bind#do(e)
 
   " FIND: another way -- to execute args list directly without join?
   let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
-  if empty(lst)
+  if v:shell_error || empty(lst)
     echohl WarningMsg
     " THINK: costruct more informative message
     "   -- flags indicators
     "   -- paths presence placeholder, etc
-    echom "no lst: ".a:e.pattern
+    echom get({0: "empty lst", 1: "no matches", 2: "incorrect pattern"}
+          \, v:shell_error, "unknown error") . ": " . a:e.pattern
     echohl None
     return
   endif
