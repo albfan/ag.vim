@@ -139,6 +139,7 @@ function! ag#ctrl#OpenFile(forceSplit)
     endif
     exe 'normal ' . col . '|'
     exe 'normal zv'
+    exe "normal m'"
   endif
 endfunction
 
