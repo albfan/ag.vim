@@ -59,6 +59,8 @@ function! ag#populate#grp(lst, dst, mode)
 
   silent exec cmd
   setfiletype ag_grp
+  normal zA
+  normal zt
   " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance
   " call ag#syntax#set(g:ag.ft)
 endfunction

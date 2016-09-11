@@ -38,14 +38,12 @@ function! ag#ctrl#GotoFold(next)
     let dir = "zk[z"
   endif
 
-  if foldclosed(".") != -1
-    normal zv
-    return
-  endif
+  normal zM
+
   let save_a_mark = getpos("'a")
   let mark_a_exists = save_a_mark[1] == 0
   mark a
-  execute 'normal '.dir.'zv'
+  execute 'normal '.dir.'zA'
   if getpos('.')[1] == getpos("'a")[1]
     "no movement go to first position
     if a:next
@@ -53,8 +51,9 @@ function! ag#ctrl#GotoFold(next)
     else
       normal GG
     endif
-    normal zv
+    normal zA
   endif
+  normal zt
   if mark_a_exists
     call setpos("'a", save_a_mark)
   else
