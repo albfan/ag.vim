@@ -34,7 +34,7 @@ command! -bang -range -nargs=* -complete=help            LAgHelp      call ag#bi
 
 command! -bang -count                                    AgRepeat     silent call ag#bind#repeat()
 command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      silent call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', <q-args>, [], '')
-command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', 0, [], <q-args>)
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', <q-args>)
 
 
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgSet     call ag#opts#set(<q-args>)

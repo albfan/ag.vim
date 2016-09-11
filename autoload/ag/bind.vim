@@ -115,7 +115,12 @@ endfunction
 function! ag#bind#f_tracked(cmd, visual, count, ...)
   let g:ag.visual = a:visual  " RFC:REMOVE
   let g:ag.last.count = a:count
-  call call('ag#bind#f', a:000)
+  if a:0 == 2
+    let list = split(a:2)
+    call call('ag#bind#f', [a:1, join(list[1:-1],' '), [list[0]], ''])
+  else
+    call call('ag#bind#f', a:000)
+  endif
   if g:ag.toggle.mappings_to_cmd_history
     " TODO:DEV: more correct vim cmdline generator 'ag#bind#get_cmd(e)'
     call histadd(":", a:cmd.' '.ag#bind#join([g:ag.last.pattern] + g:ag.last.paths))
