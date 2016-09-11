@@ -1,0 +1,9 @@
+""" check AgGroupFile command
+
+Execute(Find "foo" in files with pattern name a):
+  :AgGroupFile fixture/a foo
+
+Expect (matches on line 3,11,12 and 14):
+  fixture/a
+  1:1:foo
+  2:1:foo bar
