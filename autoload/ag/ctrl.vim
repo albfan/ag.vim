@@ -6,6 +6,21 @@ function! ag#ctrl#ToggleShowLine()
   endif
 endfunction
 
+function! ag#ctrl#jumpBack()
+  let save_a_mark = getpos("'a")
+  let mark_a_exists = save_a_mark[1] == 0
+  mark a
+  execute "normal \<Plug>(ag-ctrl-o)"
+  if getpos('.')[1] == getpos("'a")[1]
+    "no movement do it again
+    execute "normal \<Plug>(ag-ctrl-o)"
+  endif
+  if mark_a_exists
+    call setpos("'a", save_a_mark)
+  else
+    delmark a
+  endif
+endfunction
 
 function! ag#ctrl#DeleteFold()
   if foldlevel(".") == 0

@@ -106,6 +106,9 @@ xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 1
 nnoremap <silent> <Leader>gg :AgNext<CR>
 nnoremap <silent> <Leader>pp :AgPrev<CR>
 
+nnoremap <Plug>(ag-ctrl-o) <C-O>
+nnoremap <C-O> :<C-u>call ag#ctrl#jumpBack()<CR>
+
 if g:ag.use_default.mappings
   let s:ag_mappings = [
     \ ['nx', '<Leader>af', '<Plug>(ag-qf)'],
