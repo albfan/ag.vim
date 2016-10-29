@@ -90,6 +90,8 @@ hi def link agDelimiter   Special
 hi def link agMatchNum    Type
 hi def link agContextNum  LineNr
 hi def link agSearch      Todo
+hi Folded ctermfg=244 ctermbg=235 cterm=NONE guifg=#8e9292 guibg=#2b2b2b gui=NONE
+hi FoldColumn ctermfg=244 ctermbg=235 cterm=NONE guifg=#8e9292 guibg=#2b2b2b gui=NONE
 
 " EXPL: must be last line -- set single-loading guard only if no exceptions
 let b:current_syntax = 'ag'
