@@ -198,9 +198,8 @@ history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
   let g:ag.mappings_to_cmd_history=1
 <
                                                      *g:ag.ignore_list*
-Every search issued from shortcuts in normal or visual mode, is added to
-history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
-  let g:ag.mappings_to_cmd_history=1
+List of ignored files and directories for *:AgGroup* search. See related
+*:AgIgnore* and *:AgIgnoreReset*
 
 :AgSet {options} {value}                                     *:AgSet*
 

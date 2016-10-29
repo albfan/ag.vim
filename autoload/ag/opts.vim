@@ -3,7 +3,7 @@ let s:ag.toggle = {}
 
 " Cmdline
 " NOTE: for now use global case option, then move into .last if convenient
-let s:ag.ignore = 'tags'
+let s:ag.ignore_list = ['tags']
 let s:ag.toggle.literal_vsel = 1
 let s:ag.toggle.case_ignore = 0
 let s:ag.toggle.case_smart = 1
@@ -99,12 +99,16 @@ fun! ag#opts#append(opt, ...)
     echom "Option '".a:opt."' doesn't exist!"
     return
   endif
-  if type(g:ag[a:opt]) != type([])
-    echom "Option '".a:opt."' is not a list"
+  let type = type(g:ag[a:opt])
+  if type == type([])
+    call extend(g:ag[a:opt], a:000)
+    echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+  elseif type(g:ag[a:opt]) == type("")
+    exe 'let g:ag.'.a:opt.' += '.string(g:ag[a:opt])
+  else
+    echom "Cannot append to option '".o."' type '".type."'not managed"
     return
   endif
-  call extend(g:ag[a:opt], a:000)
-  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
 endf
 
 " ATTENTION: rhs is evaluated and only then substituted. Use quotes to prevent.

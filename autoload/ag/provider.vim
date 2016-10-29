@@ -17,11 +17,6 @@ function! ag#provider#ag(e)
   let t = g:ag.toggle
   let argv += [ t.case_ignore ? '-i' : t.case_smart ? '-S' : '-s']
 
-  " File ignore patterns
-  if !empty(g:ag.ignore)
-    let argv += ['--ignore', g:ag.ignore]
-  endif
-
   if !empty(g:ag.ignore_list)
     for ignore_item in g:ag.ignore_list
       let argv += [ "--ignore", ignore_item ]
