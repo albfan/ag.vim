@@ -198,7 +198,8 @@ function! ag#ctrl#ForwardSkipConceal(count)
     endif
   endwhile
   "exec "normal ".mvcnt."l"
-  return ":\<C-u>\e".mvcnt."l"
+  "return ":\<C-u>\e".mvcnt."l"
+  return mvcnt."l"
 endfunction
 
 function! ag#ctrl#BackwardSkipConceal(count)
@@ -233,7 +234,8 @@ function! ag#ctrl#BackwardSkipConceal(count)
     endif
   endwhile
   "exec "normal ".mvcnt."h"
-  return ":\<C-u>\e".mvcnt."h"
+  "return ":\<C-u>\e".mvcnt."h"
+  return mvcnt."h"
 endfunction
 
 function! ag#ctrl#next()
