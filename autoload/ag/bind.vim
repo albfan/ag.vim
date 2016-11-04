@@ -52,7 +52,7 @@ function! ag#bind#do(e)
 
   " FIND: another way -- to execute args list directly without join?
   let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
-  if v:shell_error || empty(lst)
+  if v:shell_error && empty(lst)
     echohl WarningMsg
     " THINK: costruct more informative message
     "   -- flags indicators
