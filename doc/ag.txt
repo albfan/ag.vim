@@ -198,8 +198,9 @@ history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
   let g:ag.mappings_to_cmd_history=1
 <
                                                      *g:ag.ignore_list*
-List of ignored files and directories for *:AgGroup* search. See related
-*:AgIgnore* and *:AgIgnoreReset*
+List of ignored files and directories for |:AgGroup| search. See related
+|:AgIgnore| and |:AgIgnoreReset|
+203
 
 :AgSet {options} {value}                                     *:AgSet*
 
