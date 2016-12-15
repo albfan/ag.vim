@@ -44,6 +44,10 @@ function! ag#ctrl#PrevFold()
   call ag#ctrl#GotoFold(0)
 endfunction
 
+function! ag#ctrl#OpenCurrentFold()
+  normal zA
+endfunction
+
 " Find next fold or go back to first one
 "
 function! ag#ctrl#GotoFold(next)
@@ -53,7 +57,7 @@ function! ag#ctrl#GotoFold(next)
     let dir = "zk[z"
   endif
 
-  normal zM
+  call ag#ctrl#CloseAllFolds()
 
   let save_a_mark = getpos("'a")
   let mark_a_exists = save_a_mark[1] == 0
@@ -66,7 +70,7 @@ function! ag#ctrl#GotoFold(next)
     else
       normal GG
     endif
-    normal zA
+    call ag#ctrl#OpenCurrentFold()
   endif
   normal zt
   if mark_a_exists
@@ -157,12 +161,19 @@ function! ag#ctrl#OpenFile(forceSplit)
   endif
 endfunction
 
+function! ag#ctrl#CloseAllFolds()
+  normal zM
+endfunction
+
+function! ag#ctrl#OpenAllFolds()
+  normal zR
+endfunction
 
 function! ag#ctrl#ToggleEntireFold()
   if foldclosed(1) == -1
-    normal zM
+    call ag#ctrl#CloseAllFolds()
   else
-    normal zR
+    call ag#ctrl#OpenAllFolds()
   endif
 endfunction
 
