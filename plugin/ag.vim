@@ -32,8 +32,8 @@ command! -bang -range -nargs=* -complete=customlist,s:fc LAgBuffer    call ag#bi
 " command! -bang -range -nargs=* -complete=customlist,s:fc LAgFile      call ag#bind#f('loc', ['-g', <f-args>], [], '<bang>')
 command! -bang -range -nargs=* -complete=help            LAgHelp      call ag#bind#f('loc', <q-args>, 'help', '<bang>')
 
-command! -bang -count                                    AgRepeat     silent call ag#bind#repeat()
-command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      silent call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', <q-args>, [], '')
+command! -bang -count                                    AgRepeat     call ag#bind#repeat()
+command! -bang -count -nargs=* -complete=customlist,s:fc AgGroup      call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', <q-args>, [], '')
 command! -bang -count -nargs=* -complete=customlist,s:fc AgGroupFile  call ag#bind#f_tracked('AgGroup', 0, <count>, 'grp', <q-args>)
 
 
