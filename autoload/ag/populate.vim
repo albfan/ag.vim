@@ -34,7 +34,6 @@ function! ag#populate#qf(lst, dst, mode)
   endif
 endfunction
 
-
 function! ag#populate#grp(lst, dst, mode)
   if a:dst ==# 'preview'
     silent! wincmd P
@@ -58,6 +57,10 @@ function! ag#populate#grp(lst, dst, mode)
   endif
 
   silent exec cmd
+  normal G
+  call append(line('.'),'')
+  normal gg
+  set nomodifiable
   setfiletype ag_grp
   call ag#ctrl#CloseAllFolds()
   call ag#ctrl#OpenCurrentFold()

@@ -32,7 +32,7 @@ the results in a split window.
      s       Goto selected file:line:col splitting horizontal above
      S       Goto selected file:line:col splitting vertical above
      d       Delete result
-     gl       Toggle linenumber visualization
+     gl      Toggle linenumber visualization
 
                                                         *:AggFile* *:AgGroupFile*
 :[N]AggFile {fileregexp} [options] {pattern} [{directory}]
@@ -191,8 +191,12 @@ When navigate to file behind search, if there's context, |g:ag.goto_exact_line|
 jumps to exact line selected, instead of matched line. Default 0. Example: >
   let g:ag.goto_exact_line=1
 <
-
-                                                     *g:ag.mappings_to_cmd_history*
+                                                         *g:ag.jump_in_preview*
+When navigate to next/prev match, |g:ag.jump_in_preview| jump only to first 
+result from file to file. Default 0. Example: >
+  let g:ag.jump_in_preview=1
+<
+                                                 *g:ag.mappings_to_cmd_history*
 Every search issued from shortcuts in normal or visual mode, is added to
 history when |g:ag.mappings_to_cmd_history| is enabled. Default 0. Example: >
   let g:ag.mappings_to_cmd_history=1

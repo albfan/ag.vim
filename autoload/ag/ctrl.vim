@@ -54,7 +54,7 @@ function! ag#ctrl#GotoFold(next)
   if a:next
     let dir = "zj"
   else
-    let dir = "zk[z"
+    let dir = "zk"
   endif
 
   call ag#ctrl#CloseAllFolds()
@@ -71,12 +71,45 @@ function! ag#ctrl#GotoFold(next)
       normal GG
     endif
     call ag#ctrl#OpenCurrentFold()
+    if ! a:next
+      normal ]z
+    endif
   endif
   normal zt
   if mark_a_exists
     call setpos("'a", save_a_mark)
   else
     delmark a
+  endif
+endfunction
+
+" Open file for AgGroup selection
+"
+" returns:
+"     0 empty line
+"     1 match line
+"    -1 filename line
+"    -2 offset line
+"
+function! ag#ctrl#LineIsMatch()
+  let curpos = line('.')
+  let line = getline(curpos)
+  if empty(line)
+    return 0
+  endif
+
+  let poscol = curpos
+  if line !~ '^\d\+:'
+    let poscol = poscol - 1
+    let line = getline(poscol)
+
+    if empty(line)
+      return -1
+    else
+      return -2
+    endif
+  else
+    return 1
   endif
 endfunction
 
@@ -91,7 +124,7 @@ function! ag#ctrl#OpenFile(forceSplit)
   let curpos = line('.')
   let line = getline(curpos)
   if empty(line)
-    return
+    return 0
   endif
 
   let increment = 1
@@ -148,8 +181,6 @@ function! ag#ctrl#OpenFile(forceSplit)
       exe winnr . "wincmd w"
     endif
 
-
-
     if bufname('%') == filename
       exe pos
     else
@@ -158,7 +189,9 @@ function! ag#ctrl#OpenFile(forceSplit)
     exe 'normal ' . col . '|'
     exe 'normal zv'
     exe "normal m'"
+    return 1
   endif
+  return -1
 endfunction
 
 function! ag#ctrl#CloseAllFolds()
@@ -252,15 +285,61 @@ endfunction
 function! ag#ctrl#next()
   silent! wincmd P
   if &previewwindow
-    call ag#ctrl#NextFold()
-    call ag#ctrl#OpenFile(0)
+    if g:ag.toggle.jump_in_preview
+      call ag#ctrl#NextFold()
+      call ag#ctrl#OpenFile(0)
+    else
+      while 1
+        let pos = line('.') 
+        normal j
+        if line('.') == pos
+          echom 'last line'
+          call ag#ctrl#OpenFile(0)
+          return
+        endif
+        let result = ag#ctrl#OpenFile(0)
+        if result == 1
+          break
+        elseif result == -1
+          unsilent echom unknow error
+          break
+        else
+          call ag#ctrl#NextFold()
+        endif 
+      endwhile
+    endif
   endif
 endfunction
 
 function! ag#ctrl#prev()
   silent! wincmd P
   if &previewwindow
-    call ag#ctrl#PrevFold()
-    call ag#ctrl#OpenFile(0)
+    if g:ag.toggle.jump_in_preview
+      call ag#ctrl#PrevFold()
+      call ag#ctrl#OpenFile(0)
+    else
+      while 1
+        let pos = line('.') 
+        normal k
+        if line('.') == pos
+          echom 'first line'
+          call ag#ctrl#OpenFile(0)
+          return
+        endif
+
+        let result = ag#ctrl#LineIsMatch()
+        if result == 1
+          call ag#ctrl#OpenFile(0)
+          break
+        elseif result == 0
+          continue
+        elseif result == -1
+          call ag#ctrl#PrevFold()
+          continue
+        elseif result == -2
+          continue
+        endif
+      endwhile
+    endif
   endif
 endfunction
