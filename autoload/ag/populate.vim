@@ -60,7 +60,7 @@ function! ag#populate#grp(lst, dst, mode)
   normal G
   call append(line('.'),'')
   normal gg
-  set nomodifiable
+  setlocal nomodifiable
   setfiletype ag_grp
   call ag#ctrl#CloseAllFolds()
   call ag#ctrl#OpenCurrentFold()
