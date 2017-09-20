@@ -26,7 +26,7 @@ let s:ag.use_default.cmappings = 1
 let s:ag.use_default.lmappings = 1
 let s:ag.use_default.abbreviations = 1
 let s:ag.toggle.mapping_message = 1
-let s:ag.toggle.mappings_to_cmd_history = 0
+let s:ag.toggle.mappings_to_cmd_history = 1
 let s:ag.toggle.jump_in_preview = 0
 
 " Folding configuration to obtain more tight compressing
