@@ -81,7 +81,7 @@ endfunction
 
 
 " NEED:DEV: more sane api -- THINK: how to separate flags, regex, paths?
-function! ag#bind#f(view, patt, paths, mode)
+function! ag#bind#f(view, pattern, paths, mode)
   let e = g:ag.last
   let e.view = a:view
   " DEV: if a:src == 'filelist' -> paths=a:paths else paths=ag#paths#{a:src}() else ''
@@ -93,15 +93,15 @@ function! ag#bind#f(view, patt, paths, mode)
     let e.mode = a:mode
   endif
 
-  if type(a:patt) == type(0)
-    if a:patt == 0
+  if type(a:pattern) == type(0)
+    if a:pattern == 0
       " Do nothing. Keep old pattern intact.
-    elseif a:patt == 1
+    elseif a:pattern == 1
       call ag#args#slash(e)
     endif
-  elseif type(a:patt) == type("")
-    if !empty(a:patt)
-      let e.pattern = a:patt
+  elseif type(a:pattern) == type("")
+    if !empty(a:pattern)
+      let e.pattern = a:pattern
     elseif exists('g:ag.visual') && g:ag.visual
       call ag#args#vsel(e)
     else
@@ -113,7 +113,7 @@ function! ag#bind#f(view, patt, paths, mode)
 endfunction
 
 function! ag#bind#f_tracked(cmd, visual, count, ...)
-  let g:ag.visual = a:visual  " RFC:REMOVE
+  let g:ag.visual = a:visual
   let g:ag.last.count = a:count
   if a:0 == 2
     let list = split(a:2)
@@ -122,7 +122,9 @@ function! ag#bind#f_tracked(cmd, visual, count, ...)
     call call('ag#bind#f', a:000)
   endif
   if g:ag.toggle.mappings_to_cmd_history
-    " TODO:DEV: more correct vim cmdline generator 'ag#bind#get_cmd(e)'
-    call histadd(":", a:cmd.' '.ag#bind#join([g:ag.last.pattern] + g:ag.last.paths))
+    let cmd = a:cmd.' '.join([g:ag.last.pattern] + g:ag.last.paths)
+    call histadd(":", cmd)
   endif
 endfunction
+
+
