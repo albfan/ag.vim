@@ -14,16 +14,17 @@ the results in a split window.
     will open the |Quickfix| window for you. If [!] is not given the first
     error is jumped to.
 
-:[N]Agg [options] {pattern} [{directory}]                      *:Agg* *:AgGroup*
+                                                                *:agg* *:AgGroup*
+:[N]AgGroup [options] {pattern}                
 
-    Search recursively in {directory} (which defaults to the current
-    directory) for the {pattern}. Behaves just like the
+    Search for {pattern} which can have spaces. Behaves just like the
+
       ag --group --column
-    shell command, but will open a temporary buffer for you. If [N] is given
+
+    shell command, but will output in a preview buffer. If [N] is given
     N lines of context are surrounded from match.
-    On this buffer (unmodifiable) you have highlights for filename,
-    linenumber, surround lines and search string. Even folds for file matches
-    and this mappings avaliable:
+    Buffer highlights filename, linenumber, surround lines and search 
+    string. Results can be folded. This mappings are avaliable:
 
      o       fold/unfold current file match
      O       fold/unfold all matches
@@ -34,10 +35,15 @@ the results in a split window.
      d       Delete result
      gl      Toggle linenumber visualization
 
-                                                        *:AggFile* *:AgGroupFile*
-:[N]AggFile {fileregexp} [options] {pattern} [{directory}]
+                                                           *:aggf* *:AgGroupFile*
+:[N]AgGroupFile {fileregexp} [options] {pattern}
 
-    Search like |Agg|, but uses first word as fileregexp for -G option of ag.
+    Search like |agg|, but only for filename regex pattern.
+
+                                                   *:aggcf* *:AgGroupCurrentFile*
+:[N]AgGroupCurrentFile [options] {pattern}
+
+    Search like |agg|, but only for current filename dir.
 
 :AgBuffer[!] [options] {pattern}                                    *:AgBuffer*
 
