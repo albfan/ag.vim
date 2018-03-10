@@ -102,8 +102,8 @@ noremap <silent> <Plug>(ag-loc-buffer)   :<C-u>call ag#bind#f('loc', '', 'buffer
 noremap <silent> <Plug>(ag-loc-help)     :<C-u>call ag#bind#f('loc', '', 'help', '')<CR>
 
 nnoremap <silent> <Plug>(ag-repeat) :<C-u>call ag#bind#repeat()<CR>
-nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 1, 'grp', '', [], '')<CR>
-xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 1, 'grp', '', [], '')<CR>
+nnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 0, 0, 'grp', '', [], '')<CR>
+xnoremap <silent> <Plug>(ag-group)  :<C-u>call ag#bind#f_tracked('AgGroup', 1, 0, 'grp', '', [], '')<CR>
 
 nnoremap <silent> <Leader>gg :AgNext<CR>
 nnoremap <silent> <Leader>pp :AgPrev<CR>
