@@ -62,8 +62,13 @@ function! ag#populate#grp(lst, dst, mode)
   normal gg
   setlocal nomodifiable
   setfiletype ag_grp
-  call ag#ctrl#CloseAllFolds()
-  call ag#ctrl#OpenCurrentFold()
+  let t = g:ag.toggle
+  if t.collapse_results
+    call ag#ctrl#CloseAllFolds()
+    call ag#ctrl#OpenCurrentFold()
+  else
+    call ag#ctrl#OpenAllFolds()
+  endif
   " let g:ag.ft = '<ft>'  " DEV: replace <ft> by derivation or inheritance
   " call ag#syntax#set(g:ag.ft)
 endfunction
