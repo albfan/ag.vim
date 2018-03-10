@@ -31,7 +31,7 @@ function! ag#provider#ag(e)
   endif
 
   " Context lines for 'group'
-  if a:e.count > 1
+  if a:e.count > 0
     let argv += ['-C', a:e.count]
   endif
 

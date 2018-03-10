@@ -76,6 +76,7 @@ endfunction
 
 
 function! ag#bind#repeat()
+  let g:ag.last.count = v:count
   call ag#bind#do(g:ag.last)
 endfunction
 
