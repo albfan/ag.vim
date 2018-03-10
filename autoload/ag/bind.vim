@@ -113,17 +113,18 @@ function! ag#bind#f(view, pattern, paths, mode)
 endfunction
 
 function! ag#bind#f_tracked(cmd, visual, count, ...)
-  let g:ag.visual = a:visual
-  let g:ag.last.count = a:count
+  let t = g:ag
+  let t.visual = a:visual
+  let t.last.count = a:count
   if a:0 == 2
     let list = split(a:2)
     call call('ag#bind#f', [a:1, join(list[1:-1],' '), [list[0]], ''])
   else
     call call('ag#bind#f', a:000)
   endif
-  if g:ag.toggle.mappings_to_cmd_history
-    let cmd = a:cmd.' '.join([g:ag.last.pattern] + g:ag.last.paths)
-    call histadd(":", cmd)
+  if t.toggle.mappings_to_cmd_history && "nvV" =~ mode()
+   let cmd = a:cmd.' '.join([g:ag.last.pattern] + g:ag.last.paths)
+   call histadd(":", cmd)
   endif
 endfunction
 
