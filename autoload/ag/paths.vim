@@ -35,8 +35,8 @@ function! ag#paths#pjroot(strategy)
       while _ !=# fnamemodify(_, ':h')
         if s:exists(_.'/'.m) | return _ | endif
         let _ = fnamemodify(_, ':h')
-      endfor
-    endwhile
+      endwhile
+    endfor
   endif
   return getcwd()
 endfunction
