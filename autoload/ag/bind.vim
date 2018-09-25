@@ -21,9 +21,6 @@ function! s:lcd(f, varg)
     echom 'Failed to change directory to:'.l:cwd
   finally
     let _ = call(a:f, a:varg)
-    if l:cwd !=# l:cwd_old
-      exe "lcd ".l:cwd_old
-    endif
   endtry
   return _
 endfunction
