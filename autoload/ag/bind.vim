@@ -48,7 +48,8 @@ function! ag#bind#do(e)
   " DEV: clone current 'e' and move it to history (circle buffer)
 
   " FIND: another way -- to execute args list directly without join?
-  let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
+  "let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
+  let lst = ag#bind#exec("rg --heading --column --color=never --path-separator=// ".g:ag.last.pattern)
   if v:shell_error && empty(lst)
     echohl WarningMsg
     " THINK: costruct more informative message
