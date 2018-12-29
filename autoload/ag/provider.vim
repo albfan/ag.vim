@@ -1,6 +1,11 @@
 function! ag#provider#ag(e)
   let argv = ['ag', '--silent']
 
+  let t = g:ag.toggle
+  if t.ignore_vcs_ignore
+    let argv += [ '-U']
+  endif
+
   " One-time crutch to chech if ag available and choose arguments for qf
   if !exists('s:ag_args_qf')
     if !executable('ag')
@@ -14,7 +19,6 @@ function! ag#provider#ag(e)
   endif
 
   " Match case
-  let t = g:ag.toggle
   let argv += [ t.case_ignore ? '-i' : t.case_smart ? '-S' : '-s']
 
   if !empty(g:ag.ignore_list)

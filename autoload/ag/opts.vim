@@ -6,6 +6,7 @@ let s:ag.toggle = {}
 let s:ag.ignore_list = ['tags']
 let s:ag.toggle.literal_vsel = 1
 let s:ag.toggle.case_ignore = 0
+let s:ag.toggle.ignore_vcs_ignore = 0
 let s:ag.toggle.case_smart = 1
 let s:ag.toggle.collapse_results = 0
 
