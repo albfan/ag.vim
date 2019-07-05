@@ -39,7 +39,7 @@ matrix:
      script:
        - ag --version
        - vim --version
-       - (cd scripts && ./suite.sh --verbose --clean)
+       - (cd t && ./suite.sh --verbose --clean)
 
    - << : *vim74
      env: AG_VER=0.31.0
