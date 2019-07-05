@@ -210,7 +210,10 @@ history when |g:ag.toggle.mappings_to_cmd_history| is enabled. Default 1. Exampl
                                                      *g:ag.ignore_list*
 List of ignored files and directories for |:AgGroup| search. See related
 |:AgIgnore| and |:AgIgnoreReset|
-203
+
+                                                     *g:ag.ignore_pattern_list*
+List of ignored patterns to filter search results for |:AgGroup| search. See related
+|:AgPatternIgnore| and |:AgPatternIgnoreReset|
 
 :AgSet {options} {value}                                     *:AgSet*
 
@@ -232,13 +235,21 @@ List of ignored files and directories for |:AgGroup| search. See related
 
     Reset an option
 
+:AgPatternIgnore {options} {value}                           *:AgPatternIgnore*
+
+    Convenient wrapper around |g:ag.ignore_pattern_list| and launch search again
+
+:AgPatternIgnoreReset {options} {value}                      *:AgPatternIgnoreReset*
+
+    Convenient wrapper to reset |g:ag.ignore_pattern_list| and launch search again
+
 :AgIgnore {options} {value}                                  *:AgIgnore*
 
-    Convenient wrapper around g:ag.ignore_list and launch search again
+    Convenient wrapper around |g:ag.ignore_list| and launch search again
 
 :AgIgnoreReset {options} {value}                             *:AgIgnoreReset*
 
-    Convenient wrapper to reset g:ag.ignore_list and launch search again
+    Convenient wrapper to reset |g:ag.ignore_list| and launch search again
 
 ==============================================================================
 ABBREVIATIONS                                                    *ag-abbrev*

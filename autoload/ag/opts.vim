@@ -3,7 +3,7 @@ let s:ag.toggle = {}
 
 " Cmdline
 " NOTE: for now use global case option, then move into .last if convenient
-let s:ag.ignore_list = ['tags']
+let s:ag.ignore_pattern_list = []
 let s:ag.toggle.literal_vsel = 1
 let s:ag.toggle.case_ignore = 0
 let s:ag.toggle.ignore_vcs_ignore = 0
@@ -19,6 +19,7 @@ let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 
 let s:ag.toggle.highlight = 0
 let s:ag.toggle.goto_exact_line = 0
 let s:ag.toggle.open_first = 0
+"let s:ag.ignore_list = ['tags']
 let s:ag.ignore_list = []
 
 " Mappings
@@ -87,13 +88,17 @@ fun! ag#opts#reset(opt)
     echom "Option '".a:opt."' doesn't exist!"
     return
   endif
-  if type(g:ag[a:opt]) != type([])
+  if type(g:ag[a:opt]) == type([])
     let g:ag[a:opt] = []
-  elseif type(g:ag[a:opt]) != type("")
+  elseif type(g:ag[a:opt]) == type("")
     let g:ag[a:opt] = ""
-  elseif type(g:ag[a:opt]) != type(0)
+  elseif type(g:ag[a:opt]) == type(0)
     let g:ag[a:opt] = 0
   endif
+  call ag#opts#show(a:opt)
+endf
+
+fun! ag#opts#show(opt)
   echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
 endf
 
@@ -126,6 +131,16 @@ fun! ag#opts#set(cmdline)
   let rhs = matchstr(a:cmdline, '\v^\S+\s+\zs.*')
   if !empty(rhs) | exec 'let '.o.' = '.rhs | endif
   exec 'echo "  '.o.' = ".string('.o.')'
+endf
+
+fun! ag#opts#ignore_pattern_list(ignore_pattern)
+  call ag#opts#append('ignore_pattern_list', a:ignore_pattern)
+  silent call ag#bind#repeat()
+endf
+
+fun! ag#opts#reset_ignore_pattern_list()
+  call ag#opts#reset('ignore_pattern_list')
+  silent call ag#bind#repeat()
 endf
 
 fun! ag#opts#ignore_list(ignore)

@@ -44,7 +44,11 @@ command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgAppend   
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgReset       call ag#opts#reset(<f-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgShow        call ag#opts#show(<f-args>)
 command! -bang -nargs=+                                              AgIgnore      call ag#opts#ignore_list(<f-args>)
+command! -bang -nargs=0                                              AgIgnoreShow  call ag#opts#show('ignore_list')
 command! -bang -nargs=0                                              AgIgnoreReset call ag#opts#reset_ignore_list()
+command! -bang -nargs=+                                              AgPatternIgnore call ag#opts#ignore_pattern_list(<f-args>)
+command! -bang -nargs=0                                              AgPatternIgnoreShow  call ag#opts#show('ignore_pattern_list')
+command! -bang -nargs=0                                              AgPatternIgnoreReset call ag#opts#reset_ignore_pattern_list()
 
 command! -bang -nargs=0 AgNext  call ag#ctrl#next()
 command! -bang -nargs=0 AgPrev  call ag#ctrl#prev()

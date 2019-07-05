@@ -47,5 +47,16 @@ function! ag#provider#ag(e)
   " Pattern and paths to search
   " TODO: allow e.pattern to be both string or array
   let argv += [a:e.pattern] + a:e.paths
-  return ag#bind#join(argv)
+
+  " Filename filter
+  if !empty(g:ag.ignore_pattern_list)
+    for ignore_pattern_item in g:ag.ignore_pattern_list
+      "TODO: Escape double commas
+      let argv += ['|', 'grep', '-v', '-e', '"^[0-9]\+:[0-9]\+:.*', ignore_pattern_item, '"']
+    endfor
+  endif
+
+  let command = ag#bind#join(argv)
+  "echom command
+  return command
 endfunction
