@@ -13,7 +13,6 @@ endfunction
 
 
 function! s:lcd(f, varg)
-  let l:cwd_old = getcwd()
   let l:cwd = ag#paths#pjroot('nearest')
   try
     exe "lcd ".l:cwd
@@ -21,6 +20,7 @@ function! s:lcd(f, varg)
     echom 'Failed to change directory to:'.l:cwd
   finally
     let _ = call(a:f, a:varg)
+    lcd -
   endtry
   return _
 endfunction
