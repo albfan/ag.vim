@@ -28,10 +28,14 @@ endfunction
 
 if exists('*systemlist')  " ALT: has('patch-7.4.248')
   " NOTE: when empty, returns '' instead of []
-  exe "fun! s:sh(_)\nreturn systemlist(a:_)\nendf"
+  fun! s:sh(_)
+     return systemlist(a:_)
+  endf
 else
   " DEV: for system() add arg 'ag --print0' and split lines at SOH (0x01)
-  exe "fun! s:sh(_)\nreturn split(system(a:_),'\\n')\nendf"
+  fun! s:sh(_)
+     return split(system(a:_),'\\n')
+  endf
 endif
 
 function! ag#bind#exec(...)
