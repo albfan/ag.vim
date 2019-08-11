@@ -15,7 +15,7 @@ the results in a split window.
     error is jumped to.
 
                                                                 *:agg* *:AgGroup*
-:[N]AgGroup [options] {pattern}                
+:[N]AgGroup [options] {pattern}
 
     Search for {pattern} which can have spaces. Behaves just like the
 
@@ -23,7 +23,7 @@ the results in a split window.
 
     shell command, but will output in a preview buffer. If [N] is given
     N lines of context are surrounded from match.
-    Buffer highlights filename, linenumber, surround lines and search 
+    Buffer highlights filename, linenumber, surround lines and search
     string. Results can be folded. This mappings are avaliable:
 
      o       fold/unfold current file match
@@ -198,7 +198,7 @@ jumps to exact line selected, instead of matched line. Default 0. Example: >
   let g:ag.goto_exact_line=1
 <
                                                          *g:ag.jump_in_preview*
-When navigate to next/prev match, |g:ag.jump_in_preview| jump only to first 
+When navigate to next/prev match, |g:ag.jump_in_preview| jump only to first
 result from file to file. Default 0. Example: >
   let g:ag.jump_in_preview=1
 <
