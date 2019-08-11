@@ -125,7 +125,11 @@ function! ag#bind#f_tracked(cmd, visual, count, ...)
     call call('ag#bind#f', a:000)
   endif
   if t.toggle.mappings_to_cmd_history && "nvV" =~ mode()
-   let cmd = a:cmd.' '.join([g:ag.last.pattern] + g:ag.last.paths)
+   if a:cmd =~ 'File'
+     let cmd = a:cmd.' '.join(g:ag.last.paths + [g:ag.last.pattern])
+   else
+     let cmd = a:cmd.' '.join([g:ag.last.pattern] + g:ag.last.paths)
+   endif
    call histadd(":", cmd)
   endif
 endfunction
