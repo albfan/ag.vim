@@ -18,6 +18,16 @@ function! ag#provider#ag(e)
         \ ['--vimgrep'] : ['--column', '--nobreak', '--noheading']
   endif
 
+  "ignore hidden
+  if t.hidden
+    let argv += [ '--hidden']
+  endif
+
+  "unrestricted
+  if t.unrestricted
+    let argv += [ '-u']
+  endif
+
   " Match case
   let argv += [ t.case_ignore ? '-i' : t.case_smart ? '-S' : '-s']
 
@@ -70,6 +80,6 @@ function! ag#provider#ag(e)
   endif
 
   let command = ag#bind#join(argv)
-  "echom command
+  echom command
   return command
 endfunction
