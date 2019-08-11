@@ -12,20 +12,6 @@ function! ag#bind#join(args)
 endfunction
 
 
-function! s:lcd(f, varg)
-  let l:cwd_old = getcwd()
-  let l:cwd = ag#paths#pjroot('nearest')
-  try
-    exe "lcd ".l:cwd
-  catch
-    echom 'Failed to change directory to:'.l:cwd
-  finally
-    let _ = call(a:f, a:varg)
-  endtry
-  return _
-endfunction
-
-
 if exists('*systemlist')  " ALT: has('patch-7.4.248')
   " NOTE: when empty, returns '' instead of []
   fun! s:sh(_)
@@ -39,11 +25,7 @@ else
 endif
 
 function! ag#bind#exec(...)
-  if g:ag.working_path_mode ==? 'r'
-    return s:lcd('s:sh', a:000)
-  else
-    return call('s:sh', a:000)
-  endif
+  return call('s:sh', a:000)
 endfunction
 
 

@@ -46,7 +46,20 @@ function! ag#provider#ag(e)
 
   " Pattern and paths to search
   " TODO: allow e.pattern to be both string or array
-  let argv += [a:e.pattern] + a:e.paths
+  let paths = a:e.paths
+  if empty(a:e.paths)
+    if g:ag.working_path_mode ==? 'r'
+     let cwd = getcwd()
+     "ensure we look from project root
+     let pjroot = ag#paths#pjroot('nearest')
+     if cwd != pjroot
+       let rel_path = substitute(cwd, pjroot."/", "", "")
+       let rel_path = substitute(rel_path, "[^/]\\+", "..", "g")
+       let paths = [rel_path]
+     endif
+   endif
+  endif
+  let argv += [a:e.pattern] + paths
 
   " Filename filter
   if !empty(g:ag.ignore_pattern_list)

@@ -134,17 +134,17 @@ For background, see: https://github.com/rking/ag.vim/pull/88
 
                                                        *g:ag.working_path_mode*
 A mapping that describes where ag will be run. Default is the current working
-directory. Specifying 'r' as the argument will tell it to run from the project
-rootdirectory. For now any other mapping will result to the default.
-Example:
+directory 'c'. Specifying 'r' will run from the project root directory
+(directory with any file present in *g:ag.root_markers*). Any other mapping
+will use the default.
+
+Example: >
   let g:ag.working_path_mode='r'
-
-                                                               *g:ag.highlight*
-If 1, highlight the search terms after searching. Default: 0. Example: >
-  let g:ag.highlight=1
 <
-
-                                                                  *g:ag.format*
+                                                            *g:ag.root_markers*
+list of files or directories marking project root. Default: [.rootdir, .git/,
+.hg/, .svn/, bzr , _darcs, build.xml]
+                                                                 *g:ag.format*
 Format to recognize the matches. See 'errorformat' for more info. Default:
 "%f" when searching for files, "%f:%l:%c:%m" if not otherwise set. For
 example, if your `g:ag.prg` is set to just "ag" (no column numbers in the
