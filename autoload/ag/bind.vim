@@ -75,11 +75,7 @@ function! ag#bind#f(view, pattern, paths, mode)
   " DEV: if a:src == 'filelist' -> paths=a:paths else paths=ag#paths#{a:src}() else ''
   let e.paths = a:paths
 
-  if e.view == 'grp'
-    let e.filter = a:mode
-  else
-    let e.mode = a:mode
-  endif
+  let e.mode = a:mode
 
   if type(a:pattern) == type(0)
     if a:pattern == 0
@@ -104,7 +100,7 @@ function! ag#bind#f_tracked(cmd, visual, count, ...)
   let t = g:ag
   let t.visual = a:visual
   let t.last.count = a:count
-  if a:0 == 2
+  if a:cmd =~ 'AgGroupFile'
     let list = split(a:2)
     call call('ag#bind#f', [a:1, join(list[1:-1],' '), [list[0]], ''])
   else

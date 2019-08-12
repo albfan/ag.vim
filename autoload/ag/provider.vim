@@ -1,5 +1,5 @@
 function! ag#provider#ag(e)
-  let argv = ['ag', '--silent']
+  let argv = ['ag', '--silent', '-H']
 
   let t = g:ag.toggle
   if t.skip_vcs_ignore
@@ -50,8 +50,8 @@ function! ag#provider#ag(e)
   endif
 
   " Filename filter
-  if !empty(a:e.filter)
-    let argv += ['-G', a:e.filter]
+  if !empty(g:ag.filter)
+    let argv += ['-G', g:ag.filter]
   endif
 
   " Pattern and paths to search

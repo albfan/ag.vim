@@ -25,6 +25,7 @@ let s:ag.nhandler = "botright new"
 let s:ag.working_path_mode = 'c'
 let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 'build.xml']
 let s:ag.ignore_list = []
+let s:ag.filter = ''
 
 " Mappings
 let s:ag.use_default = {}
@@ -50,7 +51,6 @@ function! ag#opts#init_entry()
   let e = {}
   let e.view = 'qf'
   let e.pattern = ''
-  let e.filter = ''
   let e.count = 0
   " Toggle
   let e.word = 0
@@ -144,6 +144,16 @@ fun! ag#opts#set(cmdline)
   let rhs = matchstr(a:cmdline, '\v^\S+\s+\zs.*')
   if !empty(rhs) | exec 'let '.o.' = '.rhs | endif
   exec 'echo "  '.o.' = ".string('.o.')'
+endf
+
+fun! ag#opts#filter(filter)
+  let g:ag.filter = a:filter
+  silent call ag#bind#repeat()
+endf
+
+fun! ag#opts#reset_filter()
+  call ag#opts#reset('filter')
+  silent call ag#bind#repeat()
 endf
 
 fun! ag#opts#ignore_pattern_list(ignore_pattern)
