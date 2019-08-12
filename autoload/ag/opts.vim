@@ -83,7 +83,20 @@ fun! ag#opts#show(opt)
     echom "Option '".a:opt."' doesn't exist!"
     return
   endif
-  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
+
+  let ag_dir = g:ag
+  let key = a:opt
+  if key =~ '\.'
+    let keysplit = split(key, '\.')
+    for k in keysplit[:-2]
+      let ag_dir = ag_dir[k]
+    endfor
+    let key = keysplit[-1]
+  endif
+
+  let opt_val = ag_dir[key]
+
+  echo '  ag.'.a:opt.' = '.string(opt_val)
 endf
 
 fun! ag#opts#reset(opt)
@@ -99,10 +112,6 @@ fun! ag#opts#reset(opt)
     let g:ag[a:opt] = 0
   endif
   call ag#opts#show(a:opt)
-endf
-
-fun! ag#opts#show(opt)
-  echo '  ag.'.a:opt.' = '.string(g:ag[a:opt])
 endf
 
 fun! ag#opts#append(opt, ...)
