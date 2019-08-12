@@ -69,7 +69,13 @@ function! ag#provider#ag(e)
      endif
    endif
   endif
-  let argv += [a:e.pattern] + paths
+
+  let pattern = a:e.pattern
+  if t.ui_text
+    let pattern = substitute(a:e.pattern, '\(\w\)', '.?\1', "g")
+  endif
+
+  let argv += [pattern] + paths
 
   " Filename filter
   if !empty(g:ag.ignore_pattern_list)
