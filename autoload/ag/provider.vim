@@ -74,6 +74,10 @@ function! ag#provider#ag(e)
   if t.ui_text
     let pattern = substitute(a:e.pattern, '\(\w\)', '.?\1', "g")
   endif
+  if t.code_variants
+    let pattern = substitute(pattern, '\(^.\)\|[-_]\(.\)', '\U\1\2', 'g')
+    let pattern = substitute(pattern, '\(\u\)', '.[_-]?\L\1', 'g')
+  endif
 
   let argv += [pattern] + paths
 

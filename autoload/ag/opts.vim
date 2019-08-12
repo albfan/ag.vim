@@ -14,6 +14,7 @@ let s:ag.toggle.collapse_results = 0
 let s:ag.toggle.goto_exact_line = 0
 let s:ag.toggle.open_first = 0
 let s:ag.toggle.ui_text = 0
+let s:ag.toggle.code_variants = 0
 let s:ag.toggle.debug = 0
 let s:ag.toggle.highlight = 0
 
