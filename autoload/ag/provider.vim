@@ -2,7 +2,7 @@ function! ag#provider#ag(e)
   let argv = ['ag', '--silent']
 
   let t = g:ag.toggle
-  if t.ignore_vcs_ignore
+  if t.skip_vcs_ignore
     let argv += [ '-U']
   endif
 
@@ -80,6 +80,8 @@ function! ag#provider#ag(e)
   endif
 
   let command = ag#bind#join(argv)
-  echom command
+  if t.debug
+    echom command
+  endif
   return command
 endfunction

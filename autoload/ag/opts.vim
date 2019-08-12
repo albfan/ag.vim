@@ -8,9 +8,14 @@ let s:ag.toggle.literal_vsel = 1
 let s:ag.toggle.case_ignore = 0
 let s:ag.toggle.hidden = 0
 let s:ag.toggle.unrestricted = 0
-let s:ag.toggle.ignore_vcs_ignore = 0
+let s:ag.toggle.skip_vcs_ignore = 0
 let s:ag.toggle.case_smart = 1
 let s:ag.toggle.collapse_results = 0
+let s:ag.toggle.goto_exact_line = 0
+let s:ag.toggle.open_first = 0
+let s:ag.toggle.ui_text = 0
+let s:ag.toggle.debug = 0
+let s:ag.toggle.highlight = 0
 
 " Settings
 let s:ag.chandler = "botright copen"
@@ -18,10 +23,6 @@ let s:ag.lhandler = "botright lopen"
 let s:ag.nhandler = "botright new"
 let s:ag.working_path_mode = 'c'
 let s:ag.root_markers = ['.rootdir', '.git/', '.hg/', '.svn/', 'bzr', '_darcs', 'build.xml']
-let s:ag.toggle.highlight = 0
-let s:ag.toggle.goto_exact_line = 0
-let s:ag.toggle.open_first = 0
-"let s:ag.ignore_list = ['tags']
 let s:ag.ignore_list = []
 
 " Mappings

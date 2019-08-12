@@ -30,11 +30,15 @@ endfunction
 
 
 function! ag#bind#do(e)
-  if empty(a:e.pattern) | echom "empty pattern" | return | endif
+  if empty(a:e.pattern)
+    echom "empty pattern"
+    return
+  endif
   " DEV: clone current 'e' and move it to history (circle buffer)
 
   " FIND: another way -- to execute args list directly without join?
   let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
+
   if v:shell_error && empty(lst)
     echohl WarningMsg
     " THINK: costruct more informative message
