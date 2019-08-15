@@ -76,7 +76,7 @@ function! ag#provider#ag(e)
   endif
   if t.code_variants
     let pattern = substitute(pattern, '\(^.\)\|[-_]\(.\)', '\U\1\2', 'g')
-    let pattern = substitute(pattern, '\(\u\)', '.[_-]?\L\1', 'g')
+    let pattern = substitute(pattern, '\(\u\)', '[_-]?\L\1', 'g')
   endif
 
   let argv += [pattern] + paths
