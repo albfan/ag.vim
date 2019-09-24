@@ -167,6 +167,12 @@ fun! ag#opts#reset_ignore_pattern_list()
 endf
 
 fun! ag#opts#ignore_list(ignore)
+  if empty(trim(a:ignore))
+    return
+  endif
+  if index(s:ag.ignore_list, a:ignore) >= 0
+     return
+  endif
   call ag#opts#append('ignore_list', a:ignore)
   silent call ag#bind#repeat()
 endf

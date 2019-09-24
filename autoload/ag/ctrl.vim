@@ -113,6 +113,26 @@ function! ag#ctrl#LineIsMatch()
   endif
 endfunction
 
+" Get filename for current line
+"
+function! ag#ctrl#GetFilename()
+  let curpos = line('.')
+  let line = getline(curpos)
+  if empty(line)
+    return ""
+  endif
+
+  if line =~ '^\d\+:'
+    let line = getline(curpos - 1)
+    while !empty(line) && curpos > 1
+      let curpos = curpos - 1
+      let line = getline(curpos - 1)
+    endwhile
+    let line = getline(curpos)
+  endif
+  return line
+endfunction
+
 " Open file for AgGroup selection
 "
 " forceSplit:

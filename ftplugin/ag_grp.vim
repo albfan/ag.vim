@@ -9,6 +9,7 @@ noremap <silent> <buffer> O       :call ag#ctrl#ToggleEntireFold()<CR>
 noremap <silent> <buffer> <CR>    :call ag#ctrl#OpenFile(0)<CR>
 noremap <silent> <buffer> s       :call ag#ctrl#OpenFile(1)<CR>
 noremap <silent> <buffer> S       :call ag#ctrl#OpenFile(2)<CR>
+noremap <silent> <buffer> i       :call ag#opts#ignore_list(ag#ctrl#GetFilename())<CR>
 noremap <silent> <buffer> d       :call ag#ctrl#DeleteFold()<CR>
 noremap <silent> <buffer> gl      :call ag#ctrl#ToggleShowLine()<CR>
 noremap <expr> <silent> <buffer> l ag#ctrl#ForwardSkipConceal(v:count1)
