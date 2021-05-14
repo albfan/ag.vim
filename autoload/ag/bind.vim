@@ -47,6 +47,7 @@ function! ag#bind#do(e)
     echom get({0: "empty lst", 1: "no matches", 2: "incorrect pattern"}
           \, v:shell_error, "unknown error") . ": " . a:e.pattern
     echohl None
+    call ag#view#{a:e.view}(lst, get(a:e, 'mode', ''))
     return
   endif
   call ag#view#{a:e.view}(lst, get(a:e, 'mode', ''))
