@@ -29,6 +29,10 @@ function! ag#bind#exec(...)
 endfunction
 
 
+function Filter_lineending(key, val)
+  return substitute(a:val, '', '', 'g')
+endfunction
+
 function! ag#bind#do(e)
   if empty(a:e.pattern)
     echom "empty pattern"
@@ -38,6 +42,9 @@ function! ag#bind#do(e)
 
   " FIND: another way -- to execute args list directly without join?
   let lst = ag#bind#exec(ag#provider#ag(g:ag.last))
+  if has('win32unix') || has('win32')
+    let lst = map(lst, function('Filter_lineending'))
+  endif
 
   if v:shell_error && empty(lst)
     echohl WarningMsg
