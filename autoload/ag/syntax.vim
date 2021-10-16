@@ -43,8 +43,11 @@ endfunction
 " TODO:DEV: replace case derivation and try-catch by ag#bind#pcre2vim()
 function! ag#syntax#himatch_pcre(patt)
   let t = g:ag.toggle
+  let _ = escape(a:patt, '/')
+  let _ = t.word ? '<'._.'>' : _
   let _ = (t.case_ignore || (t.case_smart && a:patt !~# '[A-Z]')
-        \ ? '\c' : '\C') . escape(a:patt, '/')
+        \ ? '\c' : '\C') . _
+
   try|try
     call ag#syntax#himatch('/\v'._.'/')
   catch /^Vim\%((\a\+)\)\=:E54/ " invalid regexp

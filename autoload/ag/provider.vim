@@ -28,6 +28,11 @@ function! ag#provider#ag(e)
     let argv += [ '-u']
   endif
 
+  "word
+  if t.word
+    let argv += [ '-w']
+  endif
+
   " Match case
   let argv += [ t.case_ignore ? '-i' : t.case_smart ? '-S' : '-s']
 

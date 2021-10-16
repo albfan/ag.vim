@@ -8,6 +8,7 @@ let s:ag.toggle.literal_vsel = 1
 let s:ag.toggle.case_ignore = 0
 let s:ag.toggle.hidden = 0
 let s:ag.toggle.unrestricted = 0
+let s:ag.toggle.word = 0
 let s:ag.toggle.skip_vcs_ignore = 0
 let s:ag.toggle.case_smart = 1
 let s:ag.toggle.collapse_results = 0
