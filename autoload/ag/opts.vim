@@ -18,6 +18,8 @@ let s:ag.toggle.ui_text = 0
 let s:ag.toggle.code_variants = 0
 let s:ag.toggle.debug = 0
 let s:ag.toggle.highlight = 0
+let s:ag.toggle.before = 0
+let s:ag.toggle.after = 0
 
 " Settings
 let s:ag.chandler = "botright copen"
@@ -191,6 +193,13 @@ fun! ag#opts#toggle(cmdline)
   let msg = '  ag.toggle:'
   for opt in l:lst
     let g:ag.toggle[opt] = !g:ag.toggle[opt]
+    if g:ag.toggle[opt]
+      if opt == 'before'
+        let g:ag.toggle['after'] = 0
+      elseif opt == 'after'
+        let g:ag.toggle['before'] = 0
+      endif
+    endif
     let msg .= '  '.opt.'='.g:ag.toggle[opt]
   endfor
   echo msg

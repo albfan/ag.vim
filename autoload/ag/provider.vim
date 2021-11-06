@@ -50,8 +50,19 @@ function! ag#provider#ag(e)
   endif
 
   " Context lines for 'group'
+  let context = '-C'
+  if t.before
+    let context = '-B'
+  elseif t.after
+    let context = '-A'
+  endif
+  let c = 0
   if a:e.count > 0
-    let argv += ['-C', a:e.count]
+    let c = a:e.count
+  endif
+
+  if c > 0
+    let argv += [context, c]
   endif
 
   " Filename filter

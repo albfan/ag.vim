@@ -202,6 +202,18 @@ When navigate to next/prev match, |g:ag.jump_in_preview| jump only to first
 result from file to file. Default 0. Example: >
   let g:ag.jump_in_preview=1
 <
+                                          *g:ag.toggle.after*
+When using context in searchs |:3AgGroup| context is only after match. Default 0. >
+negates |g:ag.toggle.before| if set. Example: >
+  AgToggle before
+  3AgGroup foo
+<
+                                          *g:ag.toggle.before*
+When using context in searchs |:3AgGroup| context is only after match. Default 0. >
+negates |g:ag.toggle.after| if set. Example: >
+  AgToggle after
+  3AgGroup foo
+<
                                           *g:ag.toggle.mappings_to_cmd_history*
 Every search issued from shortcuts in normal or visual mode, is added to
 history when |g:ag.toggle.mappings_to_cmd_history| is enabled. Default 1. Example: >
