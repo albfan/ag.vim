@@ -19,6 +19,7 @@ fun! s:fc(...)
 endfun
 
 " NOTE: You must, of course, install ag / the_silver_searcher
+command!                                                 AgReload     call ag#bind#AgReload()
 command! -bang -range -nargs=* -complete=customlist,s:fc Ag           call ag#bind#f('qf', <q-args>, [], '<bang>')
 command! -bang -range -nargs=* -complete=customlist,s:fc AgAdd        call ag#bind#f('qf', <q-args>, [], '<bang>+')
 command! -bang -range -nargs=* -complete=customlist,s:fc AgBuffer     call ag#bind#f('qf', <q-args>, 'buffers', '<bang>')

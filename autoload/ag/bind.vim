@@ -1,3 +1,8 @@
+function! ag#bind#AgReload()
+  unlet g:loaded_ag
+  source $MYVIMRC
+endfunction
+
 function! ag#bind#escape(arg)
   if a:arg =~# '^".*"$' || a:arg =~# "^'.*'$"
     return escape(a:arg, '%#')    " Escapes file substitution %/#
