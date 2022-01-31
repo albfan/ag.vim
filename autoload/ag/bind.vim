@@ -30,7 +30,16 @@ else
 endif
 
 function! ag#bind#exec(...)
-  return call('s:sh', a:000)
+  let result = call('s:sh', a:000)
+  " Pattern filter
+  if !empty(g:ag.ignore_pattern_list)
+    for ignore_pattern_item in g:ag.ignore_pattern_list
+      "TODO: Escape double commas
+      let result = filter(result, "v:val !~ '^[0-9]\\+:[0-9]\\+:.*".ignore_pattern_item.".*'")
+    endfor
+  endif
+
+  return result
 endfunction
 
 

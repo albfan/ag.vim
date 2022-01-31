@@ -97,14 +97,6 @@ function! ag#provider#ag(e)
 
   let argv += [pattern] + paths
 
-  " Filename filter
-  if !empty(g:ag.ignore_pattern_list)
-    for ignore_pattern_item in g:ag.ignore_pattern_list
-      "TODO: Escape double commas
-      let argv += ['|', 'grep', '-v', '-e', '"^[0-9]\+:[0-9]\+:.*', ignore_pattern_item, '"']
-    endfor
-  endif
-
   let command = ag#bind#join(argv)
   if t.debug
     echom command
