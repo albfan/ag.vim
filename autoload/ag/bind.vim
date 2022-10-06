@@ -83,6 +83,15 @@ function! ag#bind#do(e)
   end
 endfunction
 
+function! ag#bind#toggle()
+  silent! wincmd P
+  if &previewwindow
+    wincmd p
+    pclose
+  else
+    call ag#bind#repeat()
+  endif
+endfunction
 
 function! ag#bind#repeat()
   let g:ag.last.count = v:count
