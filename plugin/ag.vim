@@ -45,12 +45,14 @@ command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgAppend   
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgReset       call ag#opts#reset(<f-args>)
 command! -bang -nargs=+ -complete=customlist,ag#complete#opts_set    AgShow        call ag#opts#show(<f-args>)
 command! -bang -nargs=+                                              AgIgnore      call ag#opts#ignore_list(<f-args>)
+command! -bang -nargs=+ -complete=customlist,ag#complete#ignore_list AgNoIgnore    call ag#opts#no_ignore_list(<f-args>)
 command! -bang -nargs=0                                              AgIgnoreShow  call ag#opts#show('ignore_list')
 command! -bang -nargs=0                                              AgIgnoreReset call ag#opts#reset_ignore_list()
 command! -bang -nargs=+                                              AgFilter      call ag#opts#filter(<f-args>)
 command! -bang -nargs=0                                              AgFilterShow  call ag#opts#show('filter')
 command! -bang -nargs=0                                              AgFilterReset call ag#opts#reset_filter()
 command! -bang -nargs=+                                              AgPatternIgnore call ag#opts#ignore_pattern_list(<f-args>)
+command! -bang -nargs=+ -complete=customlist,ag#complete#ignore_pattern_list AgPatternNoIgnore call ag#opts#no_ignore_pattern_list(<f-args>)
 command! -bang -nargs=0                                              AgPatternIgnoreShow  call ag#opts#show('ignore_pattern_list')
 command! -bang -nargs=0                                              AgPatternIgnoreReset call ag#opts#reset_ignore_pattern_list()
 
@@ -80,6 +82,10 @@ if g:ag.use_default.abbreviations
     \ ['aggcf', 'AgGroupCurrentFile'],
     \ ['agn', 'AgNext'],
     \ ['agp', 'AgPrev'],
+    \ ['agni', 'AgNoIgnore'],
+    \ ['agis', 'AgIgnoreShow'],
+    \ ['agnip', 'AgNoIgnorePattern'],
+    \ ['agips', 'AgIgnorePatternShow'],
   \]
 
   function! s:expabbr(lhs, rhs)

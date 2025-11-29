@@ -36,7 +36,7 @@ function! ag#provider#ag(e)
   " Match case
   let argv += [ t.case_ignore ? '-i' : t.case_smart ? '-S' : '-s']
 
-  if !empty(g:ag.ignore_list)
+  if t.ignore && !empty(g:ag.ignore_list)
     for ignore_item in g:ag.ignore_list
       let argv += [ "--ignore", ignore_item ]
     endfor
