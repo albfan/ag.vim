@@ -20,6 +20,7 @@ let s:ag.toggle.debug = 0
 let s:ag.toggle.highlight = 0
 let s:ag.toggle.before = 0
 let s:ag.toggle.after = 0
+let s:ag.toggle.ignore = 1
 
 " Settings
 let s:ag.chandler = "botright copen"
@@ -159,6 +160,17 @@ fun! ag#opts#reset_filter()
   silent call ag#bind#repeat()
 endf
 
+fun! ag#opts#no_ignore_pattern_list(ignore)
+  if empty(trim(a:ignore))
+    return
+  endif
+  let pos = index(s:ag.ignore_pattern_list, a:ignore)
+  if pos >= 0
+    call remove(s:ag.ignore_pattern_list, pos)
+    silent call ag#bind#repeat()
+  endif
+endf
+
 fun! ag#opts#ignore_pattern_list(ignore_pattern)
   call ag#opts#append('ignore_pattern_list', a:ignore_pattern)
   silent call ag#bind#repeat()
@@ -167,6 +179,17 @@ endf
 fun! ag#opts#reset_ignore_pattern_list()
   call ag#opts#reset('ignore_pattern_list')
   silent call ag#bind#repeat()
+endf
+
+fun! ag#opts#no_ignore_list(ignore)
+  if empty(trim(a:ignore))
+    return
+  endif
+  let pos = index(s:ag.ignore_list, a:ignore)
+  if pos >= 0
+    call remove(s:ag.ignore_list, pos)
+    silent call ag#bind#repeat()
+  endif
 endf
 
 fun! ag#opts#ignore_list(ignore)

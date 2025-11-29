@@ -22,6 +22,13 @@ fun! s:getopt(opt)
   return [src, key, prf]
 endf
 
+fun! ag#complete#ignore_pattern_list(arg, line, pos)
+  return filter(g:ag.ignore_pattern_list, 'v:val =~ "^'.a:arg.'"')
+endf
+
+fun! ag#complete#ignore_list(arg, line, pos)
+  return filter(g:ag.ignore_list, 'v:val =~ "^'.a:arg.'"')
+endf
 
 " BUG: <Tab> from middle of word don't recognize option as already completed
 fun! ag#complete#opts_set(arg, line, pos)

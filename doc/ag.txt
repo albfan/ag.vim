@@ -235,6 +235,9 @@ List of ignored patterns to filter search results for |:AgGroup| search. See rel
 
     Toggle an option
 
+                                                     *g:ag.toggle.ignore*
+Toggle exclusion of files/directories set in |g:ag.ignore_list|. Default enabled
+
 :AgShow {options}                                            *:AgShow*
 
     Show option value
