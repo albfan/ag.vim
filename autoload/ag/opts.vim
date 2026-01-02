@@ -13,6 +13,7 @@ let s:ag.toggle.skip_vcs_ignore = 0
 let s:ag.toggle.case_smart = 1
 let s:ag.toggle.collapse_results = 0
 let s:ag.toggle.goto_exact_line = 0
+let s:ag.toggle.goto_current_col = 0
 let s:ag.toggle.open_first = 0
 let s:ag.toggle.ui_text = 0
 let s:ag.toggle.code_variants = 0

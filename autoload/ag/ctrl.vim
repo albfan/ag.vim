@@ -173,6 +173,13 @@ function! ag#ctrl#OpenFile(forceSplit)
       let pos += offset
     endif
     let col = data[1]
+    if g:ag.toggle.goto_current_col
+      let col_offset = strridx(line, ':') + 1
+      let n_col = col('.') - col_offset
+      if n_col > 0
+        let col = n_col
+      endif
+    endif
 
     let filename = getline(curpos - 1)
     while !empty(filename) && curpos > 1

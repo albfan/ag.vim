@@ -219,6 +219,11 @@ Every search issued from shortcuts in normal or visual mode, is added to
 history when |g:ag.toggle.mappings_to_cmd_history| is enabled. Default 1. Example: >
   let g:ag.toggle.mappings_to_cmd_history=0
 <
+                                                         *g:ag.toggle.goto_current_col*
+When navigate to file behind search, |g:ag.toggle.goto_current_col| jump to current
+col in result. Default 0. Example: >
+  AgToggle goto_current_col
+
                                                      *g:ag.ignore_list*
 List of ignored files and directories for |:AgGroup| search. See related
 |:AgIgnore| and |:AgIgnoreReset|
